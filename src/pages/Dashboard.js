@@ -287,7 +287,7 @@ const dataclick = () => {
             <CDBBtn style={{background:"#333", width:'100%' }} flat size="medium" className="border-0 ml-auto px-2 my-2"
 
               onClick={dataclick}
-			  > Create Notice</CDBBtn>
+			  > Create Notices..</CDBBtn>
 
 			   </div>
 	            </div>
