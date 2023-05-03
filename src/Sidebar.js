@@ -44,6 +44,17 @@ const Sidebar = () => {
             </NavLink>
            
            
+            <NavLink
+              exact
+              to="/searchlisting"
+              activeClassName="activeClicked"
+            >
+              <CDBSidebarMenuItem
+                icon="user"
+              >
+                Search Listing
+              </CDBSidebarMenuItem>
+            </NavLink>
 
             <NavLink
               exact
@@ -70,6 +81,45 @@ const Sidebar = () => {
             </NavLink>
 
 
+            
+            <NavLink
+              exact
+              to="/reports"
+              activeClassName="activeClicked"
+            >
+              <CDBSidebarMenuItem
+                icon="user"
+              >
+                Reports
+              </CDBSidebarMenuItem>
+            </NavLink>
+
+
+
+            <NavLink
+              exact
+              to="/Escrow"
+              activeClassName="activeClicked"
+            >
+              <CDBSidebarMenuItem
+                icon="user"
+              >
+                Escrow
+              </CDBSidebarMenuItem>
+            </NavLink>
+
+
+            <NavLink
+              exact
+              to="/makereport"
+              activeClassName="activeClicked"
+            >
+              <CDBSidebarMenuItem
+                icon="user"
+              >
+                Make Report
+              </CDBSidebarMenuItem>
+            </NavLink>
 
           
 

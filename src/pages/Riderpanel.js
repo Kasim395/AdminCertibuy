@@ -95,7 +95,7 @@ model:['Galaxy s10'],
       </div>
       <div style={{flex:"1 1 auto", display:"flex", flexFlow:"column", height:"100vh", overflowY:"hidden"}}>
         <Navbar/>
-        <div style={{height:"100%"}}>
+        <div style={{height:"100%", backgroundColor:'grey'}}>
           <div style={{padding:"20px 5%",height:"calc(100% - 64px)",overflowY:"scroll"}}>
 
         <div className="d-flex card-section">
