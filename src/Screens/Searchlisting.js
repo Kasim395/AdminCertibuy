@@ -3,7 +3,7 @@ import { CDBTable, CDBTableHeader, CDBBtn, CDBContainer } from "cdbreact";
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
 import { onSnapshot, collection } from "firebase/firestore";
-import { db } from "./firebase";
+import { db } from "./Firebase/firebase";
 
 export const Searchlisting = () => {
 

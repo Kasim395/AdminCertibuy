@@ -12,7 +12,7 @@ import { Pie, Bar } from "react-chartjs-2";
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
 import "./Dashboard.css";
-import { db } from "./firebase";
+import { db } from "./Firebase/firebase";
 //import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 import { onSnapshot, collection } from "firebase/firestore";
 
@@ -346,7 +346,7 @@ export const Dashboard = () => {
                             X{" "}
                           </text>{" "}
                         </CDBBtn>
-                        <strong>Admin Name: </strong> <br></br>
+                        <strong>Admin Name:</strong><br></br>
                         <input
                           id="input-field"
                           type="text"

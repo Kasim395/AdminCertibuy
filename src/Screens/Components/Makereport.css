@@ -23,3 +23,17 @@
   }
   
   
+
+  #mylabel {
+    font-weight: 700;
+    font-size: 20px;
+    padding-top: 10px;
+  }
+
+  #admindata{
+    display:flex;
+    
+    align-items:center;
+    background-color: white;
+    width:200px
+  }

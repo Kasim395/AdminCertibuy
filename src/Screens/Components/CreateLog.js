@@ -1,17 +1,22 @@
 import React from "react";
 import { CDBBtn, CDBIframe, CDBView } from "cdbreact";
-import Sidebar from "../Sidebar";
-import Navbar from "../Navbar";
-import "./Profile.css";
+import Sidebar from "../../Sidebar";
+import Navbar from "../../Navbar";
+import "./CreateLog.css";
 import QRCode from "qrcode.react";
-import { db } from "./firebase";
+import { db } from "../Firebase/firebase";
 import { onSnapshot, collection } from "firebase/firestore";
 
-export const Profile = (props) => {
+export const CreateLog = (props) => {
+
   const { datas } = props.location.state;
   const { datas2 } = props.location.state;
   const { datas3 } = props.location.state;
   const { datas4 } = props.location.state;
+  const { datas5 } = props.location.state;
+  const { datas6 } = props.location.state;
+  const { datas7 } = props.location.state;
+  const { datas8 } = props.location.state;
 
   const [adminName, setAdminName] = React.useState("");
   const [riderName, setRiderName] = React.useState("");
@@ -26,18 +31,6 @@ export const Profile = (props) => {
   const [dateTime, setDateTime] = React.useState("");
   const [id, setId] = React.useState("");
 
-  React.useEffect(() => {
-    const alphanumericCharacters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let generatedCode = "";
-    for (let i = 0; i < 8; i++) {
-      const randomIndex = Math.floor(
-        Math.random() * alphanumericCharacters.length
-      );
-      generatedCode += alphanumericCharacters[randomIndex];
-      setId(generatedCode);
-    }
-  }, []);
 
   React.useEffect(() => {
     const newDateTime = new Date().toLocaleString();
@@ -70,6 +63,7 @@ export const Profile = (props) => {
   };
 
   const postitemlog = async () => {
+
     try {
       // Add a new document to the "add" collection with the specified fields
       await db.collection("ItemLogs").doc(id).set({
@@ -80,11 +74,14 @@ export const Profile = (props) => {
         Brand: brand,
         Model: datas3,
         ImeiNumber: imeiNumber,
-        AD_ID: adId,
+        adIDs: datas4,
         Accessories: listOfAccessories,
         Comments: comments,
         DateTime: dateTime,
-        LogID: id,
+        buyer: datas5,
+        seller: datas6,
+        price: datas7,
+        address: datas8
       });
 
       // Log a message to the console if the document was added successfully
@@ -93,6 +90,31 @@ export const Profile = (props) => {
       // Log any errors to the console
       console.error(error);
     }
+
+
+    try {
+      await db.collection("CreateReports").add({
+        
+        PhoneOwner: datas,
+        OwnerContact: datas2,
+        Brand: brand,
+        Model: datas3,
+        adIDs: datas4,
+        buyer: datas5,
+        seller: datas6,
+        price: datas7,
+        address: datas8
+       
+      });
+      console.log("Add Posted!!!");
+    } catch (error) {
+      console.error(error);
+    }
+
+
+
+
+
   };
 
   return (
@@ -172,10 +194,10 @@ export const Profile = (props) => {
                         <div className="col-sm">
                           <label id="input-label">Ad Id:</label>
                           <br></br>
-                          <input
+                          <input style={{backgroundColor:'#D3D3D3'}}
                             id="input-field"
                             type="text"
-                            onChange={(e) => setAdId(e.target.value)}
+                            value={datas4}
                           />
                         </div>
                         <div className="col-sm">
@@ -250,12 +272,11 @@ export const Profile = (props) => {
                     </form>
 
                     {/* Display the generated ID */}
-                    {id && (
+                    
                       <div>
-                        <h3>Generated ID: {id}</h3>
+                        <h3>Phone ID: {datas4}</h3>
                       </div>
-                    )}
-
+                   
                     <br></br>
                     <div
                       class="input-container"
@@ -268,7 +289,7 @@ export const Profile = (props) => {
                       <label id="input-label">QR Code:</label>
                       <QRCode
                         id="qr-code"
-                        value={adId}
+                        value={datas4}
                         size={256}
                         style={{ float: "inline-end" }}
                       />
@@ -276,156 +297,14 @@ export const Profile = (props) => {
                   </div>
                 </div>
 
-                <div class="containerilog">
-                  <h3>haha {}</h3>
-                  <div></div>
-                </div>
+              
               </div>
-              <div className="mini-container">
-                <div>
-                  <div className="card shadow border-0">
-                    <img
-                      alt="cardImg"
-                      className="img-fluid"
-                      style={{ objectFit: "cover" }}
-                      src="/img/cardImage.png"
-                    />
-                    <div className="p-3">
-                      <h3>Basic</h3>
-                      <p>
-                        This is just a card text Get important notifications
-                        about you or activity you've missed{" "}
-                      </p>
-                      <CDBBtn style={{ background: "#333", border: "none" }}>
-                        Button
-                      </CDBBtn>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div
-                    className="card shadow border-0 h-75 mx-auto"
-                    style={{
-                      backgroundImage:
-                        "url('https://cdn.pixabay.com/photo/2018/08/14/13/23/ocean-3605547_960_720.jpg')",
-                    }}>
-                    <div className="p-3 d-flex flex-column h-100 w-100">
-                      <h4 className="mt-3 text-white">Heading</h4>
-                      <p className="text-white">Paragraph</p>
-                      <div className="d-flex justify-content-center mt-auto">
-                        <CDBBtn color="light" flat circle>
-                          Button
-                        </CDBBtn>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
 
-              <div className="cards-container2">
-                <div>
-                  <div className="card shadow border-0">
-                    <img
-                      alt="cardImg"
-                      className="img-fluid"
-                      style={{ objectFit: "cover" }}
-                      src="/img/cardImage.png"
-                    />
-                    <img
-                      alt="cardImg"
-                      className="mx-auto border rounded-circle"
-                      style={{ marginTop: "-5rem" }}
-                      width="130px"
-                      src="/img/pane/pane4.png"
-                    />
-                    <div className="p-3 d-flex flex-column align-items-center mb-4 text-center">
-                      <h4 style={{ fontWeight: "600" }}>Sammy Russo</h4>
-                      <p>Senior Software Developer</p>
-                      <p className="text-muted">Detroit, USA</p>
-                      <div className="d-flex justify-content-center flex-wrap">
-                        <CDBBtn className="mr-2" size="small" color="dark">
-                          <i className="fas fa-user-plus"></i> Connect
-                        </CDBBtn>
-                        <CDBBtn size="small" color="warning">
-                          {" "}
-                          Send Message{" "}
-                        </CDBBtn>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div className="card shadow border-0">
-                    <div>
-                      <img
-                        src="/img/pages/promotionImage2.png"
-                        alt="Project"
-                        className="img-fluid"
-                      />
-                    </div>
-                    <div className="card-body">
-                      <h4 className="card-title mb-3">
-                        <span style={{ fontWeight: "600" }}>Project Name</span>
-                      </h4>
-                      <p className="card-text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Fugit, error amet numquam iure provident voluptate
-                        esse quasi, veritatis totam voluptas.
-                      </p>
-                    </div>
-                    <div className="card-footer">
-                      <a className="p-2" href="#profile">
-                        Live Preview
-                        <i className="far fa-image ml-1"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div className="card shadow border-0">
-                    <div>
-                      <img
-                        src="/img/pages/promotionImage.png"
-                        alt="Project"
-                        className="img-fluid"
-                      />
-                    </div>
-                    <div className="card-body">
-                      <h4
-                        className="card-title text-center mb-3"
-                        style={{ fontWeight: "600" }}>
-                        Card Title
-                      </h4>
-                      <p className="card-text text-center ">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Fugit, error amet numquam iure provident voluptate
-                        esse quasi, veritatis totam voluptas.
-                      </p>
-                    </div>
-                    <div className="card-footer text-center">
-                      <a className="p-2" href="#profile">
-                        Live Preview<i className="far fa-image ml-1"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div className="card shadow border-0">
-                    <div className="p-3"></div>
-                    <CDBView>
-                      <CDBIframe src="https://www.youtube.com/embed/xnczyP2jSR0"></CDBIframe>
-                    </CDBView>
-                    <div className="p-3">
-                      <CDBBtn color="dark" flat outline circle>
-                        Button
-                      </CDBBtn>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
               <footer className="d-flex mx-auto py-4">
                 <small className="mx-auto my-1 text-center">
-                  &copy; Devwares, 2020. All rights reserved.
+                  &copy; Certified Buy, 2023. All rights reserved.
                 </small>
               </footer>
             </div>

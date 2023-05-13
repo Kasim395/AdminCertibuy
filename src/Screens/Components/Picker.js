@@ -11,11 +11,12 @@ function DropdownPicker(props) {
   };
 
   return (
-    <select value={selectedValue} onChange={handlePickerChange}>
-      <option value="faulty">Faulty</option>
-      <option value="bad">Bad</option>
-      <option value="good">Good</option>
-      <option value="excellent">Excellent</option>
+    <select defaultValue={selectedValue} onChange={handlePickerChange}>
+       <option value="Excellent">Excellent</option>
+      <option value="Workable">Workable</option>
+      <option value="Faulty">Faulty</option>
+      <option value="Yes">Yes</option>
+      <option value="No">No</option>
     </select>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { CDBContainer, CDBBtn } from "cdbreact";
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
-import { db } from "./firebase";
+import { db } from "./Firebase/firebase";
 import { onSnapshot, collection } from "firebase/firestore";
 import { NavLink } from "react-router-dom";
 
@@ -111,10 +111,13 @@ export const ItemLog = () => {
               height: "calc(100% - 64px)",
               overflowY: "scroll",
             }}>
+
+<h1 style={{ textAlign: "center" }}>Item Logs   </h1>
             <div className="d-flex card-section">
+
               <div className="cards-container">
                 <div className="card-bg ">
-                  <CDBContainer>
+                  
                     <h2 id="createnotice">Mobiles Inbound </h2>
 
                     {ndata.map((item) => (
@@ -147,8 +150,12 @@ export const ItemLog = () => {
                                     names: item.names,
                                     residence: item.residence,
                                     cell: item.cell,
-                                    modelz: item.modelz,
-                                    timez: dateTime,
+                                    buyerID: item.buyer,
+                                    sellerID: item.seller,
+                                    amount: item.price,
+                                    adID: item.adIDs,
+                                    modelz: item.models
+
                                   });
                                   console.log("Add Posted!!!");
                                 } catch (error) {
@@ -165,7 +172,7 @@ export const ItemLog = () => {
                         </div>
                       </div>
                     ))}
-                  </CDBContainer>
+                 
                 </div>
 
                 <div className="card-bg ">
@@ -192,11 +199,16 @@ export const ItemLog = () => {
                           <NavLink
                             exact
                             to={{
-                              pathname: "/profile",
+                              pathname: "/createlog",
                               state: {
                                 datas: item.names,
                                 datas2: item.cell,
                                 datas3: item.modelz,
+                                datas4: item.adID,
+                                datas5: item.buyerID,
+                                datas6: item.sellerID,
+                                datas7: item.amount,
+                                datas8: item.residence
                               },
                             }}
                             activeClassName="activeClicked">
@@ -268,32 +280,33 @@ export const ItemLog = () => {
 
                         <div className="row">
                           <div className="col-6">
-                            <strong>Name: </strong> {item.AdminName} <br></br>
-                            <strong>Phone: </strong> {item.cell} <br></br>
-                            <strong>Address: </strong> {item.residence}{" "}
+                            <strong>Name: </strong> {item.PhoneOwner} <br></br>
                             <br></br>
-                            <strong>Date/Time: </strong>
-                            {item.timez} <br></br>
+                            <strong>Phone: </strong> {item.OwnerContact} <br></br>
+                            <br></br>
+                            <strong>Address: </strong> {item.address}{" "} <br></br>
+                            <br></br>
+                            <strong>Date/Time: </strong>  {item.timez} <br></br>
+                            <br></br>
+                            <strong>Seller ID: </strong> {item.seller} <br></br>
+                            
+                           
                           </div>
 
                           <div className="col-6">
                             <strong>Model: </strong> {item.Model} <br></br>
-                            <strong>Imei: </strong> {item.PhoneOwner} <br></br>
-                            <strong>Ad ID: </strong> fgjh468knbg <br></br>
+                            <br></br>
+                            <strong>Imei: </strong> {item.ImeiNumber} <br></br>
+                            <br></br>
+                            <strong>Ad ID: </strong> {item.adIDs} <br></br>
+                            <br></br>
                           </div>
                         </div>
 
                         <div className="col-md-12">
                           <br></br>
 
-                          <CDBBtn
-                            style={{ background: "#333", width: "100%" }}
-                            flat
-                            size="medium"
-                            className="border-0 ml-auto px-2 my-2">
-                            {" "}
-                            View Log
-                          </CDBBtn>
+                    
                         </div>
                       </div>
                     </div>

@@ -3,6 +3,7 @@ import { CDBTable, CDBTableHeader, CDBTableBody, CDBContainer } from "cdbreact";
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
 
+
 export const Escrow = () => {
   return (
     <div className="dashboard d-flex">

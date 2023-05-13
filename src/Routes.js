@@ -1,15 +1,14 @@
 import React, { Fragment } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import { Dashboard } from "./pages/Dashboard";
-import { Tables } from "./pages/Tables";
-import { Hero404 } from "./pages/Hero404";
-import { Profile } from "./pages/Profile";
-import { Riderpanel } from "./pages/Riderpanel";
-import { ItemLog } from "./pages/ItemLog";
-import { Reports } from "./pages/Report";
-import { Escrow } from "./pages/Escrow";
-import { Searchlisting } from "./pages/Searchlisting";
-import { MakeReport } from "./pages/MakeReport";
+import { Dashboard } from "./Screens/Dashboard";
+import { Hero404 } from "./Screens/Hero404";
+import { CreateLog} from "./Screens/Components/CreateLog";
+import { Riderpanel } from "./Screens/Riderpanel";
+import { ItemLog } from "./Screens/ItemLog";
+import { Reports } from "./Screens/Report";
+import { Escrow } from "./Screens/Escrow";
+import { Searchlisting } from "./Screens/Searchlisting";
+import { MakeReport } from "./Screens/Components/MakeReport";
 
 const Routes = () => {
 
@@ -17,9 +16,8 @@ const Routes = () => {
     <Fragment>
       <BrowserRouter>
         <Route exact path="/" render={() => <Dashboard/> } />
-        <Route path="/tables" component={Tables} />
         <Route path="/hero404" component={Hero404} />
-        <Route path="/profile" component={Profile} />
+        <Route path="/createlog" component={CreateLog} />
         <Route path="/riderpanel" component={Riderpanel} />
         <Route path="/itemlog" component={ItemLog} />
         <Route path="/reports" component={Reports} />

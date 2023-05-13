@@ -5,39 +5,56 @@ import 'firebase/compat/firestore';
 const firebaseConfig = {
 
 
+  apiKey: "AIzaSyDf2KbwXCvt8XcRH7LABMxLz-0P5eJEObM",
 
-    apiKey: "AIzaSyAAWEQfUoQxs9aQheIlVCWAOepkS1L0pQk",
+  authDomain: "certifiedbuybackend.firebaseapp.com",
+
+  projectId: "certifiedbuybackend",
+
+  storageBucket: "certifiedbuybackend.appspot.com",
+
+  messagingSenderId: "812176911123",
+
+  appId: "1:812176911123:web:90da56c04fd2b6c10148e6",
+
+  measurementId: "G-HX2QDNCX2P"
+
+
+
+
+
+
+
+
+
   
-  authDomain: "justtesting-ad671.firebaseapp.com",
 
-  projectId: "justtesting-ad671",
-
-  storageBucket: "justtesting-ad671.appspot.com",
-
-  messagingSenderId: "998134413366",
-
-  appId: "1:998134413366:web:b5970d82e8027e57894097"
 
   
   };
   
 /*
 
+apiKey: "AIzaSyDf2KbwXCvt8XcRH7LABMxLz-0P5eJEObM",
+
+  authDomain: "certifiedbuybackend.firebaseapp.com",
+
+  projectId: "certifiedbuybackend",
+
+  storageBucket: "certifiedbuybackend.appspot.com",
+
+  messagingSenderId: "812176911123",
+
+  appId: "1:812176911123:web:90da56c04fd2b6c10148e6",
+
+  measurementId: "G-HX2QDNCX2P"
 
 
 
 
-    apiKey: "AIzaSyAAWEQfUoQxs9aQheIlVCWAOepkS1L0pQk",
-  
-  authDomain: "justtesting-ad671.firebaseapp.com",
 
-  projectId: "justtesting-ad671",
 
-  storageBucket: "justtesting-ad671.appspot.com",
 
-  messagingSenderId: "998134413366",
-
-  appId: "1:998134413366:web:b5970d82e8027e57894097"
 
 
     apiKey: "AIzaSyANG7fm44lR4tnk1C8dtAuPIMzklv5g31o",

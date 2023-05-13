@@ -25,7 +25,7 @@ const Sidebar = () => {
           }
         >
           <a href="/" className="text-decoration-none" style={{color:"inherit"}}>
-            Contrast
+           Certified Buy
           </a>
         </CDBSidebarHeader>
 
@@ -90,7 +90,7 @@ const Sidebar = () => {
               <CDBSidebarMenuItem
                 icon="user"
               >
-                Reports
+                Report Requests
               </CDBSidebarMenuItem>
             </NavLink>
 
@@ -107,21 +107,6 @@ const Sidebar = () => {
                 Escrow
               </CDBSidebarMenuItem>
             </NavLink>
-
-
-            <NavLink
-              exact
-              to="/makereport"
-              activeClassName="activeClicked"
-            >
-              <CDBSidebarMenuItem
-                icon="user"
-              >
-                Make Report
-              </CDBSidebarMenuItem>
-            </NavLink>
-
-          
 
           
           </CDBSidebarMenu>
