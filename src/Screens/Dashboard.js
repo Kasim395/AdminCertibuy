@@ -13,7 +13,7 @@ import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
 import "./Dashboard.css";
 import { db } from "./Firebase/firebase";
-//import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+import { NavLink } from "react-router-dom";
 import { onSnapshot, collection } from "firebase/firestore";
 
 export const Dashboard = () => {
@@ -87,6 +87,8 @@ export const Dashboard = () => {
   const [unotice, setunotice] = React.useState(null);
 
   const [ndata, setndata] = React.useState([]);
+  const [rdata, setrdata] = React.useState([]);
+  const [qdata, setqdata] = React.useState([]);
   const [currentDate, setCurrentDate] = React.useState(null);
   const [currentTime, setCurrentTime] = React.useState(null);
 
@@ -135,6 +137,40 @@ export const Dashboard = () => {
     const fetchCards = async () => {
       unsub = onSnapshot(collection(db, "NoticeBoard"), (snapshot) => {
         setndata(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+        );
+      });
+    };
+
+    fetchCards();
+    return unsub;
+  }, []);
+
+  React.useEffect(() => {
+    let unsub;
+    const fetchCards = async () => {
+      unsub = onSnapshot(collection(db, "ReportAd"), (snapshot) => {
+        setrdata(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+        );
+      });
+    };
+
+    fetchCards();
+    return unsub;
+  }, []);
+
+  React.useEffect(() => {
+    let unsub;
+    const fetchCards = async () => {
+      unsub = onSnapshot(collection(db, "UserQueries"), (snapshot) => {
+        setqdata(
           snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
@@ -346,7 +382,8 @@ export const Dashboard = () => {
                             X{" "}
                           </text>{" "}
                         </CDBBtn>
-                        <strong>Admin Name:</strong><br></br>
+                        <strong>Admin Name:</strong>
+                        <br></br>
                         <input
                           id="input-field"
                           type="text"
@@ -395,6 +432,101 @@ export const Dashboard = () => {
                             Update Notice
                           </CDBBtn>
                         </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div
+                  className="card-bg w-100 border d-flex flex-column "
+                  style={{ gridRow: "span 2" }}>
+                  <h2 id="createnotice">Reported Ads </h2>
+
+                  {rdata.map((item) => (
+                    <div>
+                      <div
+                        className="card"
+                        style={{
+                          borderBottom: "3px solid black",
+                          padding: "20px",
+                          margin: "10px",
+                        }}>
+                        <br></br>
+                        <strong>Date: </strong> {item.date} <br></br>
+                        <strong>Report Cause: </strong> {item.report} <br></br>
+                        <strong>Ad ID: </strong> {item.adID} <br></br>
+                        <strong>Reported By: </strong> {item.reportedBy}{" "}
+                        <br></br>
+                        <div className="col-md-12">
+                          <br></br>
+
+                          <NavLink
+                            exact
+                            to={{
+                              pathname: "/searchlisting",
+                              state: {
+                                dataz: item.adID,
+                              },
+                            }}
+                            activeClassName="activeClicked">
+                            <CDBBtn
+                              style={{ background: "#333", width: "100%" }}
+                              flat
+                              size="medium"
+                              onClick={async () => {
+                                setTimeout(() => {
+                                  db.collection("Incentre")
+                                    .doc(item.id)
+                                    .delete();
+                                }, 20000);
+                              }}>
+                              Check AD
+                            </CDBBtn>
+                          </NavLink>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div
+                  className="card-bg w-100 border d-flex flex-column "
+                  style={{ gridRow: "span 2" }}>
+                  <h2 id="createnotice">User Queries </h2>
+
+                  {qdata.map((item) => (
+                    <div>
+                      <div
+                        className="card"
+                        style={{
+                          borderBottom: "3px solid black",
+                          padding: "20px",
+                          margin: "10px",
+                        }}>
+                        <CDBBtn
+                          style={{
+                            background: "red",
+                            width: 40,
+                            alignSelf: "flex-end",
+                            marginTop: "-2%",
+                          }}
+                          flat
+                          size="small"
+                          onClick={async () =>
+                            db.collection("UserQueries").doc(item.id).delete()
+                          }>
+                          {" "}
+                          <text style={{ fontWeight: "bold", fontSize: 16 }}>
+                            {" "}
+                            X{" "}
+                          </text>{" "}
+                        </CDBBtn>
+                        <br></br>
+                        <strong>Date: </strong> {item.date} <br></br>
+                        <strong>Name: </strong> {item.name} <br></br>
+                        <strong>Email: </strong> {item.email} <br></br>
+                        <strong style={{ paddingTop: 10 }}>Query: </strong>{" "}
+                        {item.query} <br></br>
                       </div>
                     </div>
                   ))}

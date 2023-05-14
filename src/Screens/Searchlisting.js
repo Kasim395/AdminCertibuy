@@ -5,11 +5,8 @@ import Navbar from "../Navbar";
 import { onSnapshot, collection } from "firebase/firestore";
 import { db } from "./Firebase/firebase";
 
-export const Searchlisting = () => {
-
-  
-
-  
+export const Searchlisting = (props) => {
+  const { dataz } = props.location.state;
 
   React.useEffect(() => {
     let unsub;
@@ -29,21 +26,11 @@ export const Searchlisting = () => {
   }, []);
 
   const [Data, setData] = React.useState(Array(3).fill("default value"));
-
   const [Loading, setLoading] = React.useState(true);
-  const [searchQuery, setSearchQuery] = React.useState("");
-  
-
-  const options = [
-    "title",
-    "description",
-  ];
-  
-  var opz = "title" ;
+  const [searchQuery, setSearchQuery] = React.useState(dataz);
 
   React.useEffect(() => {
     let unsub;
-   
     const fetchCards = async () => {
       unsub = onSnapshot(collection(db, "add"), (snapshot) => {
         const filteredData = snapshot.docs
@@ -51,18 +38,17 @@ export const Searchlisting = () => {
             id: doc.id,
             ...doc.data(),
           }))
-          .filter((item) =>
-          String(item.title).toLowerCase().includes(searchQuery) ||
-          String(item.description).toLowerCase().includes(searchQuery) ||
-          String(item.price).toLowerCase().includes(searchQuery) ||
-          String(item.date).toLowerCase().includes(searchQuery) ||
-          String(item.adID).toLowerCase().includes(searchQuery) ||
-          String(item.sellerID).toLowerCase().includes(searchQuery) 
-
-
+          .filter(
+            (item) =>
+              String(item.title).toLowerCase().includes(searchQuery.toLowerCase()) ||
+              String(item.description).toLowerCase().includes(searchQuery.toLowerCase()) ||
+              String(item.price).toLowerCase().includes(searchQuery.toLowerCase()) ||
+              String(item.date).toLowerCase().includes(searchQuery.toLowerCase()) ||
+              String(item.adID).toLowerCase().includes(searchQuery.toLowerCase()) ||
+              String(item.sellerID).toLowerCase().includes(searchQuery.toLowerCase())
           )
+          .slice(0, 3);
 
-          .slice(0, 3); // modify this line to get the first 3 items
         setData(filteredData);
         setLoading(false);
       });
@@ -70,9 +56,6 @@ export const Searchlisting = () => {
     fetchCards();
     return unsub;
   }, [searchQuery]);
-
- 
-  
 
   return (
     <div className="dashboard d-flex">
@@ -95,6 +78,13 @@ export const Searchlisting = () => {
               height: "calc(100% - 64px)",
               overflowY: "scroll",
             }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: 15,
+                height: 55,
+              }}></div>
 
             <div
               style={{
@@ -103,31 +93,13 @@ export const Searchlisting = () => {
                 marginTop: 15,
                 height: 55,
               }}>
-              <input
-                style={{ width: "80%" }}
-                placeholder="Search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+              <div></div>
 
-</div>
-
-<div  style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: 15,
-                height: 55,
-              }}>
-
-     
-<div>
-      
-    
-    </div>
+             
 
 
             </div>
-
+            <h3>{dataz}</h3>
             <div className="d-flex card-section">
               <div className="cards-container">
                 {Data.map((item) => (

@@ -14,17 +14,34 @@ import { onSnapshot, collection } from "firebase/firestore";
 
 export const Riderpanel = () => {
   const [ndata, setndata] = React.useState([]);
+  const [odata, setodata] = React.useState([]);
   const [dateTime, setDateTime] = React.useState("");
   const [currentDate, setCurrentDate] = React.useState(null);
   const [currentTime, setCurrentTime] = React.useState(null);
-
-  const [myname, setmyname] = React.useState("i am qasim");
 
   React.useEffect(() => {
     let unsub;
     const fetchCards = async () => {
       unsub = onSnapshot(collection(db, "inBoundPhone"), (snapshot) => {
         setndata(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+        );
+      });
+    };
+
+    fetchCards();
+    return unsub;
+  
+  }, []);
+
+  React.useEffect(() => {
+    let unsub;
+    const fetchCards = async () => {
+      unsub = onSnapshot(collection(db, "RiderOutboundSafetyLog"), (snapshot) => {
+        setodata(
           snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
@@ -150,12 +167,65 @@ export const Riderpanel = () => {
 
                 <div className="card-bg w-100 border d-flex flex-column ">
                   <h2 id="createnotice">Rider OutBound </h2>
+
+
+                  {odata.map((item) => (
+                      <div>
+                        <div
+                          className="card"
+                          style={{
+                            borderBottom: "3px solid black",
+                            padding: "20px",
+                            margin: "10px",
+                          }}>
+                          <br></br>
+                          <strong>Name: </strong> {item.names} <br></br>
+                          <strong>Phone: </strong> {item.cell}{" "}
+                          <br></br>
+                          <strong>Address: </strong> {item.residence}{" "}
+                          <br></br>
+                          <strong>Seller ID: </strong> {item.seller} <br></br>
+
+
+                          <div className="col-md-12">
+                            <br></br>
+                            <CDBBtn
+                              style={{ background: "#8b0000", width: "100%" }}
+                              flat
+                              size="medium"
+                              onClick={async () => {
+
+                                db.collection("RiderOutboundSafetyLog").doc(item.id).delete()
+                                
+                              }}>
+                              Delete Log
+                            </CDBBtn>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 </div>
               </div>
             </div>
 
             <footer className="mx-auto my-3 text-center">
-              <small>&copy; Devwares, 2020. All rights reserved.</small>
+              <small>&copy; Certified Buy 2023 All rights reserved.</small>
             </footer>
           </div>
         </div>

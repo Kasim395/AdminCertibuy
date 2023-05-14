@@ -18,13 +18,16 @@ export const CreateLog = (props) => {
   const { datas7 } = props.location.state;
   const { datas8 } = props.location.state;
 
+  const { datas9 } = props.location.state;
+
+
   const [adminName, setAdminName] = React.useState("");
   const [riderName, setRiderName] = React.useState("");
   const [phoneOwnerName, setPhoneOwnerName] = React.useState(datas);
   const [phoneOwnerContact, setPhoneOwnerContact] = React.useState(datas2);
   const [adId, setAdId] = React.useState("");
   const [brand, setBrand] = React.useState("");
-  const [model, setModel] = React.useState({ datas3 });
+  const [model, setModel] = React.useState(datas3);
   const [imeiNumber, setImeiNumber] = React.useState("");
   const [listOfAccessories, setListOfAccessories] = React.useState("");
   const [comments, setComments] = React.useState("");
@@ -44,8 +47,12 @@ export const CreateLog = (props) => {
 
     setTimeout(() => {
       postitemlog();
-      //downloadQRCode()
     }, 100);
+
+ setTimeout(() => {
+      db.collection("Incentre").doc(datas9).delete()
+    }, 200);
+    
     alert("Log Saved!");
   };
 
@@ -66,7 +73,7 @@ export const CreateLog = (props) => {
 
     try {
       // Add a new document to the "add" collection with the specified fields
-      await db.collection("ItemLogs").doc(id).set({
+      await db.collection("ItemLogs").add({
         AdminName: adminName,
         RiderName: riderName,
         PhoneOwner: datas,
@@ -106,7 +113,7 @@ export const CreateLog = (props) => {
         address: datas8
        
       });
-      console.log("Add Posted!!!");
+      console.log("Create Reports Posted!!!");
     } catch (error) {
       console.error(error);
     }
@@ -219,7 +226,6 @@ export const CreateLog = (props) => {
                             id="input-field"
                             type="text"
                            value={datas3}
-                            onChange={(e) => setModel(e.target.value)}
                           />
                         </div>
 
@@ -271,7 +277,7 @@ export const CreateLog = (props) => {
                       </CDBBtn>
                     </form>
 
-                    {/* Display the generated ID */}
+                 
                     
                       <div>
                         <h3>Phone ID: {datas4}</h3>

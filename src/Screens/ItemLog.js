@@ -208,7 +208,8 @@ export const ItemLog = () => {
                                 datas5: item.buyerID,
                                 datas6: item.sellerID,
                                 datas7: item.amount,
-                                datas8: item.residence
+                                datas8: item.residence,
+                                datas9: item.id
                               },
                             }}
                             activeClassName="activeClicked">
@@ -216,13 +217,8 @@ export const ItemLog = () => {
                               style={{ background: "#333", width: "100%" }}
                               flat
                               size="medium"
-                              onClick={async () => {
-                                setTimeout(() => {
-                                  db.collection("Incentre")
-                                    .doc(item.id)
-                                    .delete();
-                                }, 20000);
-                              }}>
+
+                             >
                               Create Item Log
                             </CDBBtn>
                           </NavLink>
@@ -316,7 +312,7 @@ export const ItemLog = () => {
             </div>
 
             <footer className="mx-auto my-3 text-center">
-              <small>&copy; Devwares, 2020. All rights reserved.</small>
+              <small>&copy; Certified Buy, 2023. All rights reserved.</small>
             </footer>
           </div>
         </div>

@@ -43,18 +43,6 @@ const Sidebar = () => {
               </CDBSidebarMenuItem>
             </NavLink>
            
-           
-            <NavLink
-              exact
-              to="/searchlisting"
-              activeClassName="activeClicked"
-            >
-              <CDBSidebarMenuItem
-                icon="user"
-              >
-                Search Listing
-              </CDBSidebarMenuItem>
-            </NavLink>
 
             <NavLink
               exact
