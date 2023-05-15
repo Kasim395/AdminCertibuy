@@ -3,7 +3,6 @@ import { CDBTable, CDBTableHeader, CDBTableBody, CDBContainer , CDBBtn} from "cd
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
 import { db } from "./Firebase/firebase";
-import { NavLink } from "react-router-dom";
 import { onSnapshot, collection } from "firebase/firestore";
 
 export const Escrow = () => {
@@ -12,6 +11,7 @@ export const Escrow = () => {
 
   const [rdata, setrdata] = React.useState([]);
   const [pdata, setpdata] = React.useState([]);
+  const [edata, setedata] = React.useState([]);
 
   React.useEffect(() => {
     let unsub;
@@ -35,6 +35,23 @@ export const Escrow = () => {
     const fetchCards = async () => {
       unsub = onSnapshot(collection(db, "PaymentAwaiting"), (snapshot) => {
         setpdata(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+        );
+      });
+    };
+
+    fetchCards();
+    return unsub;
+  }, []);
+
+  React.useEffect(() => {
+    let unsub;
+    const fetchCards = async () => {
+      unsub = onSnapshot(collection(db, "EscrowPayment"), (snapshot) => {
+        setedata(
           snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
@@ -262,10 +279,10 @@ export const Escrow = () => {
 
 
                                 setTimeout(() => {
-                                  db.collection("Incentre")
+                                  db.collection("PaymentAwaiting")
                                     .doc(item.id)
                                     .delete();
-                                }, 20000);
+                                }, 1800);
 
 
                               }}>
@@ -281,13 +298,65 @@ export const Escrow = () => {
                       </div>
                     ))}
 
-
-
-
-
           </div>
 
        
+          <div className="card-bg w-100 border d-flex flex-column ">
+          <h2 id='createnotice'>Process Payments</h2>
+
+          
+
+          {edata.map((item) => (
+                      <div>
+                        <div
+                          className="card"
+                          style={{
+                            borderBottom: "3px solid black",
+                            padding: "20px",
+                            margin: "10px",
+                          }}>
+                          <br></br>
+                          
+                          <strong>Date: </strong> {item.date.toDate().toLocaleDateString()} <br></br>
+                          <strong>AD ID: </strong> {item.adID} <br></br>
+                          <strong >Payment Amount: </strong> <p style={{fontSize:20, textAlign:'center', color:'green'}}> <b> {item.amount} </b> </p>
+                          <strong>Payment Method: </strong> {item.paymentMethod} <br></br>
+                          <strong>Account Number: </strong> {item.accountNumber} <br></br>
+                          <strong>SellerID: </strong> {item.sellerID} <br></br>
+                          
+                          
+                          <div className="row">
+
+                          <div className="col-md-12">
+                            <br></br>
+                       
+                            <CDBBtn
+                              style={{ background: "#333", width: "100%" }}
+                              flat
+                              size="medium"
+                              onClick={async () => {
+
+                                setTimeout(() => {
+                                  db.collection("EscrowPayment")
+                                    .doc(item.id)
+                                    .delete();
+                                }, 1800);
+
+
+                              }}>
+                            Payment Made
+                            </CDBBtn>
+                            </div>
+
+                             
+                            </div>
+                              
+                         
+                        </div>
+                      </div>
+                    ))}
+
+          </div>
 
 
           </div>
@@ -304,3 +373,7 @@ export const Escrow = () => {
     </div>
   );
 };
+
+
+
+               

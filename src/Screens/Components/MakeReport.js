@@ -14,9 +14,7 @@ import { onSnapshot, collection } from "firebase/firestore";
 import Dropzone from "react-dropzone";
 import "./Makereport.css";
 import DropdownPicker from "./Picker";
-
-
-
+import { NavLink } from "react-router-dom";
 
 export const MakeReport = (props) => {
   const [ndata, setndata] = React.useState([]);
@@ -28,6 +26,7 @@ export const MakeReport = (props) => {
   const { data5 } = props.location.state;
   const { data6 } = props.location.state;
   const { data7 } = props.location.state;
+  const { data11 } = props.location.state;
 
   const [currentDate, setCurrentDate] = React.useState(null);
 
@@ -60,10 +59,6 @@ export const MakeReport = (props) => {
 
   const [images, setImages] = React.useState([]);
 
- 
-  
- 
-
   const handleDrop = (acceptedFiles) => {
     // Create an array of objects with the image file, a unique ID, and other details for uploading
     const newImages = acceptedFiles.map((file) => ({
@@ -72,20 +67,15 @@ export const MakeReport = (props) => {
       name: file.name,
       type: file.type,
       size: file.size,
-     
     }));
     // Concatenate the new images with the existing images
     setImages([...images, ...newImages]);
   };
-  
+
   const handleDelete = (id) => {
     // Filter out the image with the specified ID
     setImages(images.filter((img) => img.id !== id));
   };
-
-  
-
-
 
   const handleOnChange = (event) => {
     setValue(Number(event.target.value));
@@ -169,7 +159,7 @@ export const MakeReport = (props) => {
               height: "calc(100% - 64px)",
               overflowY: "scroll",
             }}>
-            <h1 style={{ textAlign: "center" }}>Make Report   </h1> <br></br>
+            <h1 style={{ textAlign: "center" }}>Make Report </h1> <br></br>
             <div style={{ backgroundColor: "white", margin: 20 }}>
               <Dropzone onDrop={handleDrop}>
                 {({ getRootProps, getInputProps }) => (
@@ -316,26 +306,22 @@ export const MakeReport = (props) => {
                   <br></br>
                   <label id="mylabel">Screen Condition:</label>{" "}
                   <DropdownPicker
-                    defaultValue= "Excellent"
-                  
+                    defaultValue="Excellent"
                     onChange={(newValue) => setscreencondition(newValue)}
                   />
                   <label id="mylabel">TouchScreen Response:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                  
                     onChange={(newValue) => settouchfunc(newValue)}
                   />
                   <label id="mylabel">Brightness & Clarity:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                    
                     onChange={(newValue) => setbrightness(newValue)}
                   />
                   <label id="mylabel">Dead Pixels & Burns:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                  
                     onChange={(newValue) => setscreendefect(newValue)}
                   />
                 </div>
@@ -357,19 +343,16 @@ export const MakeReport = (props) => {
                   <label id="mylabel">Battery Health:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                    
                     onChange={(newValue) => setbathealth(newValue)}
                   />
                   <label id="mylabel">Battery Performance:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                    
                     onChange={(newValue) => setbatperfo(newValue)}
                   />
                   <label id="mylabel">Swelling & Damage:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                   
                     onChange={(newValue) => setbathealth(newValue)}
                   />
                 </div>
@@ -391,25 +374,21 @@ export const MakeReport = (props) => {
                   <label id="mylabel">Front Camera Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                  
                     onChange={(newValue) => setfrontcam(newValue)}
                   />
                   <label id="mylabel">Back Camera Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                  
                     onChange={(newValue) => setbackcam(newValue)}
                   />
                   <label id="mylabel">Image Quality & Focus:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                  
                     onChange={(newValue) => setqualityfocus(newValue)}
                   />
                   <label id="mylabel">Camera Issues:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                  
                     onChange={(newValue) => setcamdamage(newValue)}
                   />
                 </div>
@@ -431,31 +410,26 @@ export const MakeReport = (props) => {
                   <label id="mylabel">Pta Approved</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                 
                     onChange={(newValue) => setpta(newValue)}
                   />
                   <label id="mylabel">Network Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                   
                     onChange={(newValue) => setnetwork(newValue)}
                   />
                   <label id="mylabel">4g Enabled:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                 
                     onChange={(newValue) => set4g(newValue)}
                   />
                   <label id="mylabel">Wifi Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                    
                     onChange={(newValue) => setwifi(newValue)}
                   />
                   <label id="mylabel">Bluetooth Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                    
                     onChange={(newValue) => setbluetooth(newValue)}
                   />
                 </div>
@@ -477,25 +451,21 @@ export const MakeReport = (props) => {
                   <label id="mylabel">Power Button Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                    
                     onChange={(newValue) => setpowerbtn(newValue)}
                   />
                   <label id="mylabel">Volume Button Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                    
                     onChange={(newValue) => setvolumebtn(newValue)}
                   />
                   <label id="mylabel">Home Button status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                    
                     onChange={(newValue) => sethomebtn(newValue)}
                   />
                   <label id="mylabel">Finger Print Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                   
                     onChange={(newValue) => setfingerprintSensor(newValue)}
                   />
                 </div>
@@ -527,13 +497,11 @@ export const MakeReport = (props) => {
                   <label id="mylabel">Software Issues:</label>
                   <DropdownPicker
                     defaultValue="Excellent"
-                   
                     onChange={(newValue) => setsoftwaredmg(newValue)}
                   />
                   <label id="mylabel">Viruses In Storage:</label>
                   <DropdownPicker
                     defaultValue="Excellent"
-                  
                     onChange={(newValue) => setvirus(newValue)}
                   />
                 </div>
@@ -595,31 +563,26 @@ export const MakeReport = (props) => {
                   <label id="mylabel">Gyroscope Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                  
                     onChange={(newValue) => setgyroscope(newValue)}
                   />
                   <label id="mylabel">Compass Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                   
                     onChange={(newValue) => setcompass(newValue)}
                   />
                   <label id="mylabel">SD Card / Sim Tray Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                   
                     onChange={(newValue) => setsimsd(newValue)}
                   />
                   <label id="mylabel">Dual Sim Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                    
                     onChange={(newValue) => setdualsim(newValue)}
                   />
                   <label id="mylabel">Gps:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                    
                     onChange={(newValue) => setgps(newValue)}
                   />
                 </div>
@@ -641,19 +604,16 @@ export const MakeReport = (props) => {
                   <label id="mylabel">Charger Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                    
                     onChange={(newValue) => setcharger(newValue)}
                   />
                   <label id="mylabel">Earphones Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                   
                     onChange={(newValue) => setheadset(newValue)}
                   />
                   <label id="mylabel">Additional Accessories:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                   
                     onChange={(newValue) => setaccessories(newValue)}
                   />
                 </div>
@@ -675,7 +635,6 @@ export const MakeReport = (props) => {
                   <label id="mylabel">Verdict:</label>{" "}
                   <textarea
                     placeholder="Enter Comment"
-                   
                     onChange={(event) => setcomment(event.target.value)}
                     rows={6}
                   />
@@ -698,10 +657,38 @@ export const MakeReport = (props) => {
                 size="large"
                 className="border-0 ml-auto px-2 my-2"
                 onClick={async () => {
+                  const query = db
+                    .collection("TrackingPhone")
+                    .where("adID", "==", data3);
+
+                  // Update the document
+                  query.get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                      // Use the "update" method to update the document
+                      return doc.ref.update({
+                        status: [
+                          {
+                            status: "Arrived at inspection centre",
+                            isCompleted: true,
+                          },
+                          {
+                            status: "Technician inspecting the phone ",
+                            isCompleted: true,
+                          },
+
+                          { status: "Phone Inspected", isCompleted: true },
+                          { status: "Report Generated", isCompleted: true },
+                          { status: "Buyer Accepted", isCompleted: false },
+                          { status: "Phone Delivered", isCompleted: false },
+                        ],
+                      });
+                    });
+                  });
+
+                  console.log("Document Tracking updated successfully");
+
                   try {
                     await db.collection("ReportGenerated").add({
-
-                      
                       sellername: data,
                       sellercontact: data2,
                       selleraddress: data7,
@@ -715,7 +702,7 @@ export const MakeReport = (props) => {
                       experience: experience,
                       date: currentDate,
 
-                     pictures: images,
+                      pictures: images,
 
                       brand: brand,
                       model: model,
@@ -763,10 +750,18 @@ export const MakeReport = (props) => {
 
                       comments: comment,
                       inspectorrating: value,
-
-
                     });
+
+                    alert("Report Uploaded Sucessfully!");
                     console.log("Add Posted!!!");
+
+                    setTimeout(() => {
+                      db.collection("CreateReports").doc(data11).delete();
+                    }, 300);
+
+                    setTimeout(() => {
+                      window.location.href = "/reports";
+                    }, 3000);
                   } catch (error) {
                     console.error(error);
                   }
@@ -775,7 +770,7 @@ export const MakeReport = (props) => {
               </CDBBtn>
             </div>
             <footer className="mx-auto my-3 text-center">
-              <small>&copy; Certified Buy, 2023. All rights reserved.</small>
+              <small>&copy; Certified Buy, 2023. All rights are reserved.</small>
             </footer>
           </div>
         </div>

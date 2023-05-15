@@ -1,5 +1,6 @@
 import React from "react";
 import { 
+  CDBBtn,
   CDBSidebar,
   CDBSidebarContent,
   CDBSidebarFooter,
@@ -7,6 +8,19 @@ import {
   CDBSidebarMenu,
   CDBSidebarMenuItem } from "cdbreact";
 import { NavLink } from "react-router-dom";
+import firebase from 'firebase/compat/app';
+
+const handleLogout = async () => {
+  try {
+    await firebase.auth().signOut();
+   
+  } catch (error) {
+    console.log('Error:', error.message);
+  }
+};
+
+
+
 
 const Sidebar = () => {
 
@@ -25,7 +39,7 @@ const Sidebar = () => {
           }
         >
           <a href="/" className="text-decoration-none" style={{color:"inherit"}}>
-           Certified Buy
+           Admin Panel
           </a>
         </CDBSidebarHeader>
 
@@ -50,7 +64,7 @@ const Sidebar = () => {
               activeClassName="activeClicked"
             >
               <CDBSidebarMenuItem
-                icon="user"
+                icon="motorcycle"
               >
                 Rider Panel
               </CDBSidebarMenuItem>
@@ -62,7 +76,7 @@ const Sidebar = () => {
               activeClassName="activeClicked"
             >
               <CDBSidebarMenuItem
-                icon="user"
+                icon="clipboard"
               >
                 Item Log
               </CDBSidebarMenuItem>
@@ -76,7 +90,7 @@ const Sidebar = () => {
               activeClassName="activeClicked"
             >
               <CDBSidebarMenuItem
-                icon="user"
+                icon="sticky-note"
               >
                 Report Requests
               </CDBSidebarMenuItem>
@@ -90,7 +104,7 @@ const Sidebar = () => {
               activeClassName="activeClicked"
             >
               <CDBSidebarMenuItem
-                icon="user"
+                icon="wallet"
               >
                 Escrow
               </CDBSidebarMenuItem>
@@ -102,6 +116,14 @@ const Sidebar = () => {
           </CDBSidebarMenu>
         </CDBSidebarContent>
 
+        <CDBBtn
+        onClick={handleLogout}
+        >
+
+LOG OUT
+
+        </CDBBtn>
+
         <CDBSidebarFooter style={{ textAlign: "center" }}>
           <div
             className="sidebar-btn-wrapper"
@@ -109,7 +131,7 @@ const Sidebar = () => {
               padding: "20px 5px"
             }}
           >
-            Sidebar Footer
+            Good Bye
           </div>
         </CDBSidebarFooter>
       </CDBSidebar>

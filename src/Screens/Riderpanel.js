@@ -15,9 +15,22 @@ import { onSnapshot, collection } from "firebase/firestore";
 export const Riderpanel = () => {
   const [ndata, setndata] = React.useState([]);
   const [odata, setodata] = React.useState([]);
-  const [dateTime, setDateTime] = React.useState("");
+
   const [currentDate, setCurrentDate] = React.useState(null);
   const [currentTime, setCurrentTime] = React.useState(null);
+
+
+
+  React.useEffect(() => {
+    const now = new Date();
+    const date = now.toLocaleDateString();
+    const time = now.toLocaleTimeString();
+    setCurrentDate(date);
+    setCurrentTime(time);
+  
+  
+  }, []);
+
 
   React.useEffect(() => {
     let unsub;
@@ -55,14 +68,7 @@ export const Riderpanel = () => {
   
   }, []);
 
-  const updateDateTime = () => {
-    const now = new Date();
-    const date = now.toLocaleDateString();
-    const time = now.toLocaleTimeString();
-    setCurrentDate(date);
-    setCurrentTime(time);
-  };
-
+  
 
 
   return (
@@ -118,7 +124,11 @@ export const Riderpanel = () => {
                               onClick={async () => {
 
                                
-                             updateDateTime()
+                                const now = new Date();
+                                const date = now.toLocaleDateString();
+                                const time = now.toLocaleTimeString();
+                                setCurrentDate(date);
+                                setCurrentTime(time);
 
 
 
@@ -131,7 +141,9 @@ export const Riderpanel = () => {
                                     buyer: item.buyerID,
                                     seller: item.sellerID,
                                     price: item.amount,
-                                    models: item.model
+                                    models: item.model,
+                                    date: currentDate,
+                                    time: currentTime
                                    
                                   });
                                   console.log("Add Posted!!!");
@@ -224,8 +236,8 @@ export const Riderpanel = () => {
               </div>
             </div>
 
-            <footer className="mx-auto my-3 text-center">
-              <small>&copy; Certified Buy 2023 All rights reserved.</small>
+            <footer className="mx-auto my-3 text-center" >
+              <small>&copy; Certified Buy, 2023. All rights reserved.</small>
             </footer>
           </div>
         </div>

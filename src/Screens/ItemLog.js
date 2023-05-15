@@ -12,13 +12,7 @@ export const ItemLog = () => {
   const [ndata, setndata] = React.useState([]);
   const [ndata2, setndata2] = React.useState([]);
 
-  const [dateTime, setDateTime] = React.useState("");
-
-  const timing = () => {
-    setDateTime(null);
-    const newDateTime = new Date().toLocaleString();
-    setDateTime(newDateTime);
-  };
+ 
 
   React.useEffect(() => {
     let unsub;
@@ -133,8 +127,8 @@ export const ItemLog = () => {
                           <strong>Name: </strong> {item.names} <br></br>
                           <strong>Phone: </strong> {item.cell} <br></br>
                           <strong>Address: </strong> {item.residence} <br></br>
-                          <strong>Model: </strong> {item.modelz} <br></br>
-                          <strong>Date/Time: </strong> {item.timez} <br></br>
+                          <strong>Model: </strong> {item.models} <br></br>
+                          <strong>Date/Time: </strong> {item.date} @ {item.time} <br></br>
                           <div className="col-md-12">
                             <br></br>
 
@@ -143,7 +137,33 @@ export const ItemLog = () => {
                               flat
                               size="medium"
                               onClick={async () => {
-                                timing();
+
+                               
+
+                                const query = db.collection("TrackingPhone").where("adID", "==", item.adIDs);
+
+                                // Update the document
+                                query.get()
+                                    .then((querySnapshot) => {
+                                        querySnapshot.forEach((doc) => {
+                                            // Use the "update" method to update the document
+                                            return doc.ref.update({
+                                                status: [
+                                                   
+                                                    { status: 'Arrived at inspection centre', isCompleted: true },
+                                                    { status: 'Technician inspecting the phone ', isCompleted: true },
+                                                    
+                                    { status: 'Phone Inspected', isCompleted: false },
+                                    { status: 'Report Generated', isCompleted: false },
+                                    { status: 'Buyer Accepted', isCompleted: false },
+                                          { status: 'Phone Delivered', isCompleted: false },
+                                                ]
+                                            });
+                                        });
+                                    })
+                                    
+                                        console.log("Document Tracking updated successfully");
+                                      
 
                                 try {
                                   await db.collection("Incentre").add({
@@ -282,7 +302,7 @@ export const ItemLog = () => {
                             <br></br>
                             <strong>Address: </strong> {item.address}{" "} <br></br>
                             <br></br>
-                            <strong>Date/Time: </strong>  {item.timez} <br></br>
+                            <strong>Date/Time: </strong>  {item.DateTime} <br></br>
                             <br></br>
                             <strong>Seller ID: </strong> {item.seller} <br></br>
                             
@@ -290,11 +310,17 @@ export const ItemLog = () => {
                           </div>
 
                           <div className="col-6">
+                          <strong>brand: </strong> {item.Brand} <br></br>
+                            <br></br>
                             <strong>Model: </strong> {item.Model} <br></br>
                             <br></br>
                             <strong>Imei: </strong> {item.ImeiNumber} <br></br>
                             <br></br>
                             <strong>Ad ID: </strong> {item.adIDs} <br></br>
+                            <br></br>
+                            <strong>Accessories: </strong> {item.Accessories} <br></br>
+                            <br></br>
+                            <strong>Comments: </strong> {item.Comments} <br></br>
                             <br></br>
                           </div>
                         </div>
@@ -311,7 +337,7 @@ export const ItemLog = () => {
               </div>
             </div>
 
-            <footer className="mx-auto my-3 text-center">
+            <footer className="mx-auto my-3 text-center" >
               <small>&copy; Certified Buy, 2023. All rights reserved.</small>
             </footer>
           </div>

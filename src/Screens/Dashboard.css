@@ -35,7 +35,7 @@
 
 .dashboard .footer {
 	display:flex;
-	justify-content:space-between;
+	justify-content:flex-end;
 	align-items:center;
 	padding:1.5rem 0;
 	width:80%;

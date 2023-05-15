@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import { Dashboard } from "./Screens/Dashboard";
 import { Hero404 } from "./Screens/Hero404";
 import { CreateLog} from "./Screens/Components/CreateLog";
@@ -9,14 +9,90 @@ import { Reports } from "./Screens/Report";
 import { Escrow } from "./Screens/Escrow";
 import { Searchlisting } from "./Screens/Searchlisting";
 import { MakeReport } from "./Screens/Components/MakeReport";
+import LoginPage from "./Screens/Login";
+
+
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+
+
 
 const Routes = () => {
+
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+
+  React.useEffect(() => {
+    const unregisterAuthObserver = firebase.auth().onAuthStateChanged(async (user) => {
+      if (user) {
+        // User is signed in
+        const token = await user.getIdToken();
+        localStorage.setItem('firebaseToken', token);
+        setIsAuthenticated(true);
+      } else {
+        // User is signed out
+        localStorage.removeItem('firebaseToken');
+        setIsAuthenticated(false);
+      }
+    });
+
+    return () => {
+      // Unregister the observer to avoid memory leaks
+      unregisterAuthObserver();
+    };
+  }, []);
+
+
+
+  const handleLogin = async (email, password) => {
+    try {
+      
+      const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+      const token = await user.getIdToken();
+      localStorage.setItem('firebaseToken', token);
+
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.log('Error:', error.message);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await firebase.auth().signOut();
+      setIsAuthenticated(false);
+    } catch (error) {
+      console.log('Error:', error.message);
+    }
+  };
+
+  
+  
+
 
   return (
     <Fragment>
       <BrowserRouter>
-        <Route exact path="/" render={() => <Dashboard/> } />
-        <Route path="/hero404" component={Hero404} />
+      <Route exact path="/">
+        {isAuthenticated ? (
+          <Redirect to="/dashboard" />
+        ) : (
+          <LoginPage onLogin={handleLogin} />
+        )}
+      </Route>
+      <Route
+        path="/dashboard"
+        render={() =>
+          isAuthenticated ? (
+            <Dashboard onLogout={handleLogout} />
+          ) : (
+            <Redirect to="/" />
+          )
+        }
+      />
+       
         <Route path="/createlog" component={CreateLog} />
         <Route path="/riderpanel" component={Riderpanel} />
         <Route path="/itemlog" component={ItemLog} />
@@ -24,6 +100,7 @@ const Routes = () => {
         <Route path="/escrow" component={Escrow} />
         <Route path="/searchlisting" component={Searchlisting} />
         <Route path="/makereport" component={MakeReport} />
+        <Route  component={Hero404} />
 
       </BrowserRouter>
     </Fragment>

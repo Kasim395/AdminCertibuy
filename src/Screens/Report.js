@@ -69,8 +69,8 @@ export const Reports = () => {
                                 data4: item.buyer,
                                 data5: item.seller,
                                 data6: item.price,
-                                data7: item.address
-
+                                data7: item.address,
+                                data11: item.id
                               },
                             }}
                             activeClassName="activeClicked">
