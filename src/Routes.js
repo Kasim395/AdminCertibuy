@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import { Dashboard } from "./Screens/Dashboard";
 import { Hero404 } from "./Screens/Hero404";
 import { CreateLog} from "./Screens/Components/CreateLog";
@@ -11,10 +11,10 @@ import { Searchlisting } from "./Screens/Searchlisting";
 import { MakeReport } from "./Screens/Components/MakeReport";
 import LoginPage from "./Screens/Login";
 
-
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { SearchAds } from "./Screens/SearchListings";
 
 
 
@@ -56,6 +56,7 @@ const Routes = () => {
       setIsAuthenticated(true);
     } catch (error) {
       console.log('Error:', error.message);
+      alert('Incorrect Credientials');
     }
   };
 
@@ -75,6 +76,7 @@ const Routes = () => {
   return (
     <Fragment>
       <BrowserRouter>
+      <Switch>
       <Route exact path="/">
         {isAuthenticated ? (
           <Redirect to="/dashboard" />
@@ -82,6 +84,7 @@ const Routes = () => {
           <LoginPage onLogin={handleLogin} />
         )}
       </Route>
+      
       <Route
         path="/dashboard"
         render={() =>
@@ -92,19 +95,22 @@ const Routes = () => {
           )
         }
       />
-       
         <Route path="/createlog" component={CreateLog} />
         <Route path="/riderpanel" component={Riderpanel} />
         <Route path="/itemlog" component={ItemLog} />
         <Route path="/reports" component={Reports} />
         <Route path="/escrow" component={Escrow} />
         <Route path="/searchlisting" component={Searchlisting} />
+        <Route path="/searchads" component={SearchAds} />
         <Route path="/makereport" component={MakeReport} />
-        <Route  component={Hero404} />
-
+        <Route component={Hero404} />
+        </Switch>
       </BrowserRouter>
     </Fragment>
   );
 };
 
+
+
 export default Routes;
+

@@ -10,19 +10,26 @@ import {
 import { NavLink } from "react-router-dom";
 import firebase from 'firebase/compat/app';
 
-const handleLogout = async () => {
-  try {
-    await firebase.auth().signOut();
-   
-  } catch (error) {
-    console.log('Error:', error.message);
-  }
-};
 
 
 
 
 const Sidebar = () => {
+
+ 
+
+
+  const handleLogout = async () => {
+    try {
+      window.location.href = "/";
+      await firebase.auth().signOut();
+     
+    } catch (error) {
+      console.log('Error:', error.message);
+    }
+  };
+
+
 
   return (
     <div
@@ -54,6 +61,18 @@ const Sidebar = () => {
                 icon="columns"
               >
                 dashboard
+              </CDBSidebarMenuItem>
+            </NavLink>
+
+            <NavLink
+              exact
+              to="/searchads"
+              activeClassName="activeClicked"
+            >
+              <CDBSidebarMenuItem
+                icon="search"
+              >
+                Search Ads
               </CDBSidebarMenuItem>
             </NavLink>
            

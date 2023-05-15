@@ -6,8 +6,6 @@ import { db } from "./Firebase/firebase";
 import 'firebase/auth';
 
 
-
-
 const LoginPage = ({ onLogin }) => {
 
     
@@ -29,9 +27,19 @@ const LoginPage = ({ onLogin }) => {
 
 
   return (
-    <div className="login-page">
+
+
+
+
+<div id="main">
+
+<h1 id="heading">Certified Buy</h1>
+
+
+<div id="login-page">
+
     <form className="login-form" onSubmit={handleSubmit}>
-      <h2>Login</h2>
+      <h3>Admin Login</h3>
       <div className="form-group">
         <label htmlFor="email">Email:</label>
         <input
@@ -56,6 +64,7 @@ const LoginPage = ({ onLogin }) => {
       </div>
       <button type="submit">Login</button>
     </form>
+  </div>
   </div>
 );
 };

@@ -92,7 +92,7 @@ export const Riderpanel = () => {
               height: "calc(100% - 64px)",
               overflowY: "scroll",
             }}>
-              <h1 style={{ textAlign: "center" }}>Rider Panel   </h1>
+              <h2 style={{ textAlign: "center", fontWeight:'bold' }}>Rider Panel   </h2>
             <div className="d-flex card-section">
               <div className="cards-container">
                 <div className="card-bg ">

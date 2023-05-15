@@ -75,7 +75,7 @@ export const ItemLog = () => {
             // item.Model.includes(searchQuery.toLowerCase().models)
             
           )
-          .slice(0, 3); // modify this line to get the first 3 items
+          .slice(0, 2); // modify this line to get the first 3 items
         setData(filteredData);
         setIsLoading(false);
       });
@@ -106,7 +106,9 @@ export const ItemLog = () => {
               overflowY: "scroll",
             }}>
 
-<h1 style={{ textAlign: "center" }}>Item Logs   </h1>
+<h2 style={{ textAlign: "center", fontWeight:'bold' }}>Item Logs   </h2>
+
+
             <div className="d-flex card-section">
 
               <div className="cards-container">

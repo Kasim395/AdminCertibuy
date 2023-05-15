@@ -48,11 +48,11 @@ export const Reports = () => {
               height: "calc(100% - 64px)",
               overflowY: "scroll",
             }}>
-              <h1 style={{ textAlign: "center" }}>Report Requests   </h1>
+             <h2 style={{ textAlign: "center", fontWeight:'bold' }}>Report Requests  </h2>
             <div className="d-flex card-section">
               <div className="cards-container">
                 {ndata.map((item) => (
-                  <div className="card"  style={{ border: "3px solid black", width:'350px', borderRadius:50}}>
+                  <div className="card"  style={{ border: "3px solid black", width:'300px', borderRadius:40}}>
                     <div className="card-body" style={{alignContent:'center'}}>
                       <h5 className="card-title"> <strong>Phone ID:</strong>   {item.adIDs}</h5>
                       <p className="card-text"><strong>Brand:</strong> <br></br>{item.Brand}</p>

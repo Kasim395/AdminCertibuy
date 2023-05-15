@@ -76,6 +76,7 @@ export const Escrow = () => {
         <Navbar/>
         <div style={{height:"100%" , backgroundColor: "grey"}}>
         <div style={{padding:"20px 5%",height:"calc(100% - 64px)",overflowY:"scroll"}}>
+        <h2 style={{ textAlign: "center", fontWeight:'bold' }}>Escrow </h2>
 
         <div className="d-flex card-section">
 		    <div className="cards-container">
@@ -152,10 +153,10 @@ export const Escrow = () => {
 
 
                                 setTimeout(() => {
-                                  db.collection("Incentre")
+                                  db.collection("outBoundPhone")
                                     .doc(item.id)
                                     .delete();
-                                }, 20000);
+                                }, 1800);
 
 
                               }}>
@@ -209,10 +210,10 @@ export const Escrow = () => {
  
 
                                 setTimeout(() => {
-                                  db.collection("Incentre")
+                                  db.collection("outBoundPhone")
                                     .doc(item.id)
                                     .delete();
-                                }, 20000);
+                                }, 1800);
                               }}>
                              Deliver To Buyer 
                             </CDBBtn>
