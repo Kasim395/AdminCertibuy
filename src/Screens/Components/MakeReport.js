@@ -9,15 +9,20 @@ import {
 } from "cdbreact";
 import Sidebar from "../../Sidebar";
 import Navbar from "../../Navbar";
-import { db } from "../Firebase/firebase";
+import { db, storage } from "../Firebase/firebase";
 import { onSnapshot, collection } from "firebase/firestore";
 import Dropzone from "react-dropzone";
 import "./Makereport.css";
 import DropdownPicker from "./Picker";
 import { NavLink } from "react-router-dom";
 
+
+
+
 export const MakeReport = (props) => {
   const [ndata, setndata] = React.useState([]);
+
+  const [imageArray, setImageArray] = React.useState([])
 
   const { data } = props.location.state;
   const { data2 } = props.location.state;
@@ -71,6 +76,58 @@ export const MakeReport = (props) => {
     // Concatenate the new images with the existing images
     setImages([...images, ...newImages]);
   };
+
+
+
+
+  const uploadImages = async () => {
+    var files = images.map(function (item) {
+      return item.file;
+    });
+
+    // Function to upload a single file and return a Promise
+    function uploadFile(file) {
+      return new Promise(function (resolve, reject) {
+        // Generate a unique file name
+        var fileName = Date.now() + '_' + file.name;
+
+        // Create a reference to the file location in Firebase Storage
+        const imageRef = storage.ref("Ads").child(fileName)
+
+        // Upload the file to Firebase Storage
+        imageRef.put(file).then(function (snapshot) {
+          // File uploaded successfully, get the download URL
+          snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            resolve(downloadURL);
+
+          }).catch(function (error) {
+            reject(error);
+          });
+        }).catch(function (error) {
+          reject(error);
+        });
+      });
+    }
+
+    // Array to store the promises for each file upload
+    var uploadPromises = files.map(function (file) {
+      return uploadFile(file);
+    });
+
+    // Upload all files and retrieve the URLs
+    Promise.all(uploadPromises)
+      .then(function (downloadURLs) {
+        console.log('Files uploaded successfully');
+        console.log('Download URLs:', downloadURLs);
+        setImageArray(downloadURLs)
+
+        // You can use the downloadURLs as needed (e.g., save them to a database)
+      })
+      .catch(function (error) {
+        console.error('Error uploading files:', error);
+      });
+  }
+
 
   const handleDelete = (id) => {
     // Filter out the image with the specified ID
@@ -181,6 +238,9 @@ export const MakeReport = (props) => {
                   </div>
                 ))}
               </div>
+            </div>
+            <div>
+              <button onClick={uploadImages} title="Click me" >Click me</button>
             </div>
             <br></br>
             <div className="d-flex card-section">
@@ -661,7 +721,7 @@ export const MakeReport = (props) => {
                     .collection("TrackingPhone")
                     .where("adID", "==", data3);
 
-                  // Update the document
+
                   query.get().then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                       // Use the "update" method to update the document
@@ -702,7 +762,7 @@ export const MakeReport = (props) => {
                       experience: experience,
                       date: currentDate,
 
-                      pictures: images,
+                      pictures: imageArray,
 
                       brand: brand,
                       model: model,
@@ -756,7 +816,7 @@ export const MakeReport = (props) => {
                     console.log("Add Posted!!!");
 
                     setTimeout(() => {
-                      db.collection("CreateReports").doc(data11).delete();
+                      // db.collection("CreateReports").doc(data11).delete();
                     }, 300);
 
                     setTimeout(() => {
@@ -765,6 +825,9 @@ export const MakeReport = (props) => {
                   } catch (error) {
                     console.error(error);
                   }
+
+                  // Update the document
+
                 }}>
                 Submit Report
               </CDBBtn>
