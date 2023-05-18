@@ -114,7 +114,7 @@ export const Riderpanel = () => {
                           <br></br>
                           <strong>Address: </strong> {item.sellerAddress}{" "}
                           <br></br>
-                          <strong>Model: </strong> {item.model} <br></br>
+                          <strong>Model: </strong> {item.title} <br></br>
                           <div className="col-md-12">
                             <br></br>
                             <CDBBtn
@@ -141,7 +141,7 @@ export const Riderpanel = () => {
                                     buyer: item.buyerID,
                                     seller: item.sellerID,
                                     price: item.amount,
-                                    models: item.model,
+                                    models: item.title,
                                     date: currentDate,
                                     time: currentTime
                                    
@@ -160,13 +160,15 @@ export const Riderpanel = () => {
                                     buyer: item.buyerID,
                                     seller: item.sellerID,
                                     price: item.amount,
-                                    models: item.model
+                                    models: item.title
                                    
                                   });
                                   console.log("Add Posted!!!");
                                 } catch (error) {
                                   console.error(error);
                                 }
+
+
                               }}>
                               Send To Rider
                             </CDBBtn>

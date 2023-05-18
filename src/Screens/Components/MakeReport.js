@@ -9,7 +9,7 @@ import {
 } from "cdbreact";
 import Sidebar from "../../Sidebar";
 import Navbar from "../../Navbar";
-import { db } from "../Firebase/firebase";
+import { db, storage } from "../Firebase/firebase";
 import firebase from 'firebase/compat/app';
 import { onSnapshot, collection } from "firebase/firestore";
 import Dropzone from "react-dropzone";
@@ -87,7 +87,7 @@ export const MakeReport = (props) => {
         var fileName = Date.now() + "_" + file.name;
 
         // Create a reference to the file location in Firebase Storage
-        const imageRef = firebase.ref("Ads").child(fileName);
+        const imageRef = storage.ref("Ads").child(fileName);
 
         // Upload the file to Firebase Storage
         imageRef
@@ -727,6 +727,7 @@ export const MakeReport = (props) => {
                       // Use the "update" method to update the document
                       return doc.ref.update({
                         status: [
+                          { status: 'Collected from seller', isCompleted: true },
                           {
                             status: "Arrived at inspection centre",
                             isCompleted: true,
@@ -818,10 +819,11 @@ export const MakeReport = (props) => {
 
                     alert("Report Uploaded Sucessfully!");
                     console.log("Add Posted!!!");
-
+                  
                     setTimeout(() => {
-                      db.collection("CreateReports").doc(data11).delete();
-                    }, 300);
+                   db.collection("CreateReports").doc(data11).delete();  
+                   }, 300);
+               
 
                     setTimeout(() => {
                       window.location.href = "/reports";

@@ -151,7 +151,7 @@ export const ItemLog = () => {
                                             // Use the "update" method to update the document
                                             return doc.ref.update({
                                                 status: [
-                                                   
+                                                  { status: 'Collected from seller', isCompleted: true },
                                                     { status: 'Arrived at inspection centre', isCompleted: true },
                                                     { status: 'Technician inspecting the phone ', isCompleted: true },
                                                     
@@ -300,6 +300,10 @@ export const ItemLog = () => {
                           <div className="col-6">
                             <strong>Name: </strong> {item.PhoneOwner} <br></br>
                             <br></br>
+
+                            <strong>Rider Name: </strong> {item.RiderName} <br></br>
+                            <br></br>
+
                             <strong>Phone: </strong> {item.OwnerContact} <br></br>
                             <br></br>
                             <strong>Address: </strong> {item.address}{" "} <br></br>
@@ -312,7 +316,7 @@ export const ItemLog = () => {
                           </div>
 
                           <div className="col-6">
-                          <strong>brand: </strong> {item.Brand} <br></br>
+                          <strong>Brand: </strong> {item.Brand} <br></br>
                             <br></br>
                             <strong>Model: </strong> {item.Model} <br></br>
                             <br></br>
@@ -322,6 +326,7 @@ export const ItemLog = () => {
                             <br></br>
                             <strong>Accessories: </strong> {item.Accessories} <br></br>
                             <br></br>
+
                             <strong>Comments: </strong> {item.Comments} <br></br>
                             <br></br>
                           </div>

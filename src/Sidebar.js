@@ -9,27 +9,66 @@ import {
   CDBSidebarMenuItem } from "cdbreact";
 import { NavLink } from "react-router-dom";
 import firebase from 'firebase/compat/app';
-
+import { useHistory } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 
 
 
 const Sidebar = () => {
 
- 
+  const history = useHistory();
+  const allowedUserId = '9ADJmb7rsIhyPLD1gCS6lzmg6q33';
+
+
+
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('firebaseToken');
+    const isAuthenticated = checkTokenValidity(token);
+
+    if (!isAuthenticated) {
+      logoutAndRedirect();
+    }
+  }, []);
+
+
+
+  const checkTokenValidity = (token) => {
+   
+    if (token) {
+      
+      return true;
+    }
+  
+    
+    return false;
+  };
+
+
+  const logoutAndRedirect = () => {
+   
+    localStorage.removeItem('firebaseToken');
+
+   
+    history.replace('/');
+    window.location.replace('/'); 
+  };
 
 
   const handleLogout = async () => {
     try {
-      window.location.href = "/";
+      localStorage.removeItem('firebaseToken');
       await firebase.auth().signOut();
-     
+      history.replace('/');
+     ;
+        
     } catch (error) {
       console.log('Error:', error.message);
     }
   };
 
-
+ 
 
   return (
     <div
@@ -119,13 +158,25 @@ const Sidebar = () => {
 
             <NavLink
               exact
-              to="/Escrow"
+              to="/escrow"
               activeClassName="activeClicked"
             >
               <CDBSidebarMenuItem
                 icon="wallet"
               >
                 Escrow
+              </CDBSidebarMenuItem>
+            </NavLink>
+
+            <NavLink
+              exact
+              to="/searchpayments"
+              activeClassName="activeClicked"
+            >
+              <CDBSidebarMenuItem
+                icon="search"
+              >
+                Search Payments
               </CDBSidebarMenuItem>
             </NavLink>
 

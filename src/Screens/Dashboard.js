@@ -23,9 +23,9 @@ export const Dashboard = () => {
       datasets: [
         {
           label: "My First dataset",
-          backgroundColor: ["#F2C94C", "#2F80ED", "#9B51E0"],
+          backgroundColor: ["green", "blue", "purple"],
           borderWidth: 0,
-          data: [9, 22, 7],
+          data: [35, 40, 25],
         },
       ],
     },
@@ -83,6 +83,7 @@ export const Dashboard = () => {
   const [ndata, setndata] = React.useState([]);
   const [rdata, setrdata] = React.useState([]);
   const [qdata, setqdata] = React.useState([]);
+  
   const [currentDate, setCurrentDate] = React.useState(null);
   const [currentTime, setCurrentTime] = React.useState(null);
 
@@ -261,7 +262,11 @@ export const Dashboard = () => {
                         <p className="m-0">Apple</p>
                         <p className="text-success small">10.57</p>
                         <div>
-                          <div className="d-flex align-items-center justify-content-between text-success">
+
+                          
+                        <div
+                            className="d-flex align-items-center justify-content-between"
+                            style={{ color: "blue" }}>
                             <span
                               style={{
                                 fontSize: "3em",
@@ -271,9 +276,11 @@ export const Dashboard = () => {
                             </span>
                             <span className="small">Samsung</span>
                           </div>
+
+                          
                           <div
                             className="d-flex align-items-center justify-content-between"
-                            style={{ color: "#9B51E0" }}>
+                            style={{ color: "green" }}>
                             <span
                               style={{
                                 fontSize: "3em",
@@ -282,8 +289,12 @@ export const Dashboard = () => {
                               &#8226;
                             </span>
                             <span className="small">Apple</span>
+
                           </div>
-                          <div className="d-flex align-items-center justify-content-between text-warning">
+
+                          <div
+                            className="d-flex align-items-center justify-content-between"
+                            style={{ color: "purple" }}>
                             <span
                               style={{
                                 fontSize: "3em",
@@ -292,7 +303,12 @@ export const Dashboard = () => {
                               &#8226;
                             </span>
                             <span className="small">Xiaomi</span>
+
                           </div>
+                          
+                          
+
+
                         </div>
                       </div>
                     </div>
@@ -527,7 +543,7 @@ export const Dashboard = () => {
               </div>
             </div>
             <footer className="mx-auto my-3 text-center" >
-              <small>&copy; Certified Buy, 2023. All rights reserved.</small>
+              <small>&copy; Certified Buy Center, 2023 corp. All rights are always reserveds.</small>
             </footer>
               
 

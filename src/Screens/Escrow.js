@@ -4,6 +4,7 @@ import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
 import { db } from "./Firebase/firebase";
 import { onSnapshot, collection } from "firebase/firestore";
+import { query, where, getDocs, deleteDoc } from "firebase/firestore";
 
 export const Escrow = () => {
 
@@ -12,6 +13,67 @@ export const Escrow = () => {
   const [rdata, setrdata] = React.useState([]);
   const [pdata, setpdata] = React.useState([]);
   const [edata, setedata] = React.useState([]);
+
+  const [currentDate, setCurrentDate] = React.useState(null);
+  const [currentTime, setCurrentTime] = React.useState(null);
+
+
+  React.useEffect(() => {
+    const now = new Date();
+  const date = now.toLocaleDateString();
+  const time = now.toLocaleTimeString();
+  setCurrentDate(date);
+  setCurrentTime(time);
+  }, []);
+
+  
+
+
+
+  const handleDelete = async (adId) => {
+    try {
+      // Query the collection to find the document with the matching adId
+      const q = query(collection(db, "add"), where("adID", "==", adId));
+      const querySnapshot = await getDocs(q);
+
+      // Delete the document
+      querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+        console.log("Document deleted successfully");
+      });
+    } catch (error) {
+      console.log("Error deleting document:", error);
+    }
+  };
+
+  const handleDelete2 = async (reportz) => {
+    try {
+      // Query the collection to find the document with the matching adId
+      const q = query(collection(db, "ReportGenerated"), where("adID", "==", reportz));
+      const querySnapshot = await getDocs(q);
+
+      // Delete the document
+      querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc.ref);
+        console.log("Document deleted successfully");
+      });
+    } catch (error) {
+      console.log("Error deleting document:", error);
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+ 
+
 
   React.useEffect(() => {
     let unsub;
@@ -320,6 +382,7 @@ export const Escrow = () => {
                           
                           <strong>Date: </strong> {item.date.toDate().toLocaleDateString()} <br></br>
                           <strong>AD ID: </strong> {item.adID} <br></br>
+                          <strong>Name: </strong> {item.name} <br></br>
                           <strong >Payment Amount: </strong> <p style={{fontSize:20, textAlign:'center', color:'green'}}> <b> {item.amount} </b> </p>
                           <strong>Payment Method: </strong> {item.paymentMethod} <br></br>
                           <strong>Account Number: </strong> {item.accountNumber} <br></br>
@@ -337,11 +400,43 @@ export const Escrow = () => {
                               size="medium"
                               onClick={async () => {
 
-                                setTimeout(() => {
-                                  db.collection("EscrowPayment")
-                                    .doc(item.id)
-                                    .delete();
-                                }, 1800);
+
+                                const now = new Date();
+                                const date = now.toLocaleDateString();
+                                const time = now.toLocaleTimeString();
+                                setCurrentDate(date);
+                                setCurrentTime(time);
+
+
+
+                                try {
+                                  await db.collection("PaymentsMade").add({
+                                   
+                                    seller: item.sellerID,
+                                    name: item.name,
+                                    adIDs: item.adID,
+                                    amount: item.amount,
+                                    paymentmode: item.paymentMethod,
+                                    account: item.accountNumber,
+                                    date: currentDate,
+                                    time: currentTime
+                                   
+                                  });
+                                  console.log("Payment Log Saved");
+                                } catch (error) {
+                                  console.error(error);
+                                }
+
+
+                           //     handleDelete(item.adID)
+
+                            //    handleDelete2(item.adID)
+
+                          //      setTimeout(() => {
+                        //          db.collection("EscrowPayment")
+                         //           .doc(item.id)
+                         //           .delete();
+                       //         }, 1800);
 
 
                               }}>
@@ -366,7 +461,7 @@ export const Escrow = () => {
 
 
             <footer className="mx-auto my-3 text-center">
-                <small>&copy; Certified Buy, 2023. All rights reserved.</small>
+                <small>&copy; Certified Buy Center, 2023. All rights  are reserved.</small>
             </footer>
           </div>
         </div>
