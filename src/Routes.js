@@ -17,7 +17,7 @@ import 'firebase/compat/firestore';
 import { SearchAds } from "./Screens/SearchListings";
 import { SearchPayment } from "./Screens/SearchPayments";
 
-
+//routes file
 
 const Routes = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
