@@ -142,17 +142,7 @@ const Sidebar = () => {
 
 
             
-            <NavLink
-              exact
-              to="/reports"
-              activeClassName="activeClicked"
-            >
-              <CDBSidebarMenuItem
-                icon="sticky-note"
-              >
-                Report Requests
-              </CDBSidebarMenuItem>
-            </NavLink>
+          
 
 
 

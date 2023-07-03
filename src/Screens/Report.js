@@ -1,14 +1,18 @@
 import React from "react";
 import { CDBTable, CDBTableHeader, CDBTableBody, CDBContainer, CDBBtn } from "cdbreact";
-import Sidebar from "../Sidebar";
+import SidebarInspector from "../InspSidebar";
 import Navbar from "../Navbar";
 import { db } from "./Firebase/firebase";
 import { onSnapshot, collection } from "firebase/firestore";
 import { NavLink } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import firebase from 'firebase/compat/app';
 
 export const Reports = () => {
-  const [ndata, setndata] = React.useState([]);
 
+
+  const [ndata, setndata] = React.useState([]);
 
   React.useEffect(() => {
     let unsub;
@@ -72,7 +76,7 @@ export const Reports = () => {
   return (
     <div className="dashboard d-flex">
       <div>
-        <Sidebar />
+        <SidebarInspector />
       </div>
       <div
         style={{
@@ -126,7 +130,7 @@ export const Reports = () => {
                       <NavLink
                             exact
                             to={{
-                              pathname: "/makereport",
+                              pathname:"/makereport",
                               state: {
                                 data: item.PhoneOwner,
                                 data2: item.OwnerContact,

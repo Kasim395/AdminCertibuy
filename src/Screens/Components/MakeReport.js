@@ -7,7 +7,7 @@ import {
   CDBInput,
   CDBBtn,
 } from "cdbreact";
-import Sidebar from "../../Sidebar";
+import SidebarInspector from "../../InspSidebar";
 import Navbar from "../../Navbar";
 import { db, storage } from "../Firebase/firebase";
 import firebase from 'firebase/compat/app';
@@ -137,6 +137,8 @@ export const MakeReport = (props) => {
     setValue(Number(event.target.value));
   };
 
+
+
   const [screencondition, setscreencondition] = React.useState("Excellent");
   const [touchfunc, settouchfunc] = React.useState("Excellent");
   const [brightness, setbrightness] = React.useState("Excellent");
@@ -189,15 +191,262 @@ export const MakeReport = (props) => {
   const [model, setmodel] = React.useState("");
   const [imei, setimei] = React.useState("");
   const [warranty, setwarranty] = React.useState("");
+  const [color, setbodycolor] = React.useState("");
 
   const [mobstorage, setmobstorage] = React.useState("Excellent");
   const [avstorage, setavstorage] = React.useState("Excellent");
   const [ram, setram] = React.useState("Excellent");
 
+
+  const [body, setbody] = React.useState("Excellent");
+  const [scratches, setscratches] = React.useState("Excellent");
+  const [hjdmg, sethjdmg] = React.useState("Excellent");
+  const [cpdmg, setcpdmg] = React.useState("Excellent");
+
+
+  const [score, setscore] = React.useState(0);
+
+  const [displayscore, setdisplayscore] = React.useState(0);
+  const [exteriorscore, setexteriorscore] = React.useState(0);
+  const [camerascore, setcamerascore] = React.useState(0);
+
+  React.useEffect(() => {
+
+    let newScore = 0;
+
+    // Screen
+  
+    if ( screencondition === "Excellent") {
+      newScore += 0.4 ;
+    }
+    if ( touchfunc === "Excellent") {
+      newScore += 0.4 ;
+    }
+    if ( brightness === "Excellent") {
+      newScore += 0.4 ;
+    }
+
+    if ( screencondition === "Workable") {
+      newScore += 0.2 ;
+    }
+    if ( touchfunc === "Workable") {
+      newScore += 0.2 ;
+    }
+    if ( brightness === "Workable") {
+      newScore += 0.2 ;
+    }
+
+    //battery
+  
+    if ( batteryhealth === "Excellent") {
+      newScore += 0.4 ;
+    }
+
+    if ( batteryperformance === "Excellent") {
+      newScore += 0.3 ;
+    }
+  
+    if ( batteryhealth === "Workable") {
+      newScore += 0.2 ;
+    }
+
+    if ( batteryperformance === "Workable") {
+      newScore += 0.2 ;
+    }
+
+//camera
+
+    if ( frontcam === "Excellent") {
+      newScore += 0.3 ;
+    }
+
+    if ( backcam === "Excellent") {
+      newScore += 0.3 ;
+    }
+
+    if ( qualityfocus === "Excellent") {
+      newScore += 0.3 ;
+    }
+
+
+    if ( frontcam === "Workable") {
+      newScore += 0.2 ;
+    }
+
+    if ( backcam === "Workable") {
+      newScore += 0.2 ;
+    }
+
+    if ( qualityfocus === "Workable") {
+      newScore += 0.2 ;
+    }
+
+    //btn
+
+    if ( powerbtn === "Excellent") {
+      newScore += 0.3 ;
+    }
+
+    if ( volumebtn === "Excellent") {
+      newScore += 0.3 ;
+    }
+    
+
+    if ( powerbtn === "Workable") {
+      newScore += 0.2 ;
+    }
+
+    if ( volumebtn === "Workable") {
+      newScore += 0.2 ;
+    }
+  
+    //Connectivity
+
+    if ( network === "Excellent") {
+      newScore += 0.3 ;
+    }
+
+    if ( wifi === "Excellent") {
+      newScore += 0.3 ;
+    }
+
+    if ( bluetooth === "Excellent") {
+      newScore += 0.3 ;
+    }
+
+    if ( pta === "Yes") {
+      newScore += 0.4 ;
+    }
+
+    if ( fourg === "Yes") {
+      newScore += 0.3 ;
+    }
+
+
+    if ( network === "Workable") {
+      newScore += 0.2 ;
+    }
+
+    if ( wifi === "Workable") {
+      newScore += 0.2 ;
+    }
+
+    if ( bluetooth === "Workable") {
+      newScore += 0.2 ;
+    }
+  
+    setscore(newScore*(0.95));
+  }, [comment]);
+
+
+
+  React.useEffect(() => {
+  
+  setscore( value + score)
+  }, [value]);
+
+
+  React.useEffect(() => {
+  
+    let ExtScore = 0;
+
+    if ( body === "Excellent") {
+      ExtScore += 2.5 ;
+    }
+
+    if ( body === "Workable") {
+      ExtScore += 1.5 ;
+    }
+
+    if ( scratches === "No") {
+      ExtScore += 2.5 ;
+    }
+
+    if ( hjdmg === "No") {
+      ExtScore += 2.5 ;
+    }
+
+    if ( cpdmg === "No") {
+      ExtScore += 2.5 ;
+    }
+
+setexteriorscore(ExtScore);
+   
+    }, [value]);
+
+
+    React.useEffect(() => {
+  
+      let DispScore = 0;
+
+      if ( screencondition === "Excellent") {
+        DispScore += 3.3 ;
+      }
+
+      if ( touchfunc === "Excellent") {
+        DispScore += 3.3;
+      }
+
+      if ( brightness === "Excellent") {
+        DispScore += 3.3 ;
+      }
+
+      if ( screencondition === "Workable") {
+        DispScore += 2.1 ;
+      }
+
+      if ( touchfunc === "Workable") {
+        DispScore += 2.1 ;
+      }
+
+      if ( brightness === "Workable") {
+        DispScore += 2.1 ;
+      }
+
+      setdisplayscore(DispScore);
+     
+      }, [value]);
+
+
+      React.useEffect(() => {
+  
+        let CamScore = 0;
+  
+        if ( frontcam === "Excellent") {
+          CamScore += 3.3 ;
+        }
+
+        if ( backcam === "Excellent") {
+          CamScore += 3.3 ;
+        }
+
+        if ( qualityfocus === "Excellent") {
+          CamScore += 3.3 ;
+        }
+        
+        if ( frontcam === "Workable") {
+          CamScore += 2.1 ;
+        }
+
+        if ( backcam === "Workable") {
+          CamScore += 2.1 ;
+        }
+
+        if ( qualityfocus === "Workable") {
+          CamScore += 2.1 ;
+        }
+  
+        setcamerascore(CamScore);
+       
+        }, [value]);
+
+
+
+
   return (
     <div className="dashboard d-flex">
       <div>
-        <Sidebar />
+        <SidebarInspector />
       </div>
       <div
         style={{
@@ -215,7 +464,7 @@ export const MakeReport = (props) => {
               height: "calc(100% - 64px)",
               overflowY: "scroll",
             }}>
-            <h1 style={{ textAlign: "center" }}>Make Report </h1> <br></br>
+            <h1 style={{ textAlign: "center" }}>Make Report {score.toFixed(1)} (Ext: {exteriorscore}) (Disp: {displayscore.toFixed(1)}) (Cam: {camerascore.toFixed(1)}) </h1> <br></br>
             <div style={{ backgroundColor: "white", margin: 20 }}>
               <Dropzone onDrop={handleDrop}>
                 {({ getRootProps, getInputProps }) => (
@@ -333,7 +582,7 @@ export const MakeReport = (props) => {
                   <CDBInput
                     type="search"
                     size="md"
-                    hint="Enter Availability"
+                    hint="Enter Imei"
                     className="mb-n4 mt-n3 input-nav"
                     value={imei}
                     onChange={(event) => setimei(event.target.value)}
@@ -348,6 +597,58 @@ export const MakeReport = (props) => {
                     value={warranty}
                     onChange={(event) => setwarranty(event.target.value)}
                   />
+
+                </div>
+
+
+                <div
+                  className="card"
+                  style={{
+                    borderBottom: "3px solid black",
+                    padding: "20px",
+                    margin: "10px",
+                  }}>
+                  <h3
+                    style={{
+                      borderBottom: "2px solid black",
+                      paddingBottom: 11,
+                    }}>
+                    Exterior Report
+                  </h3>
+                  <br></br>
+
+                  
+                  <label id="mylabel">Body Condition:</label>{" "}
+                  <DropdownPicker
+                    defaultValue="Excellent"
+                    onChange={(newValue) => setbody(newValue)}
+                  />
+                  <label id="mylabel">Visible Scratches/Dents ?</label>{" "}
+                  <DropdownPicker
+                    defaultValue="Excellent"
+                    onChange={(newValue) => setscratches(newValue)}
+                  />
+                  <label id="mylabel">Headphone Jack Damaged?</label>{" "}
+                  <DropdownPicker
+                    defaultValue="Excellent"
+                    onChange={(newValue) => sethjdmg(newValue)}
+                  />
+                  <label id="mylabel">Charging Port Damaged?</label>{" "}
+                  <DropdownPicker
+                    defaultValue="Excellent"
+                    onChange={(newValue) => setcpdmg(newValue)}
+                  />
+
+                 <label id="mylabel"> Body Color:</label>
+                  <CDBInput
+                    type="search"
+                    size="md"
+                    hint="Enter Body Color"
+                    className="mb-n4 mt-n3 input-nav"
+                    value={color}
+                    onChange={(event) => setbodycolor(event.target.value)}
+                  />
+
                 </div>
 
                 <div
@@ -414,7 +715,7 @@ export const MakeReport = (props) => {
                   <label id="mylabel">Swelling & Damage:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
-                    onChange={(newValue) => setbathealth(newValue)}
+                    onChange={(newValue) => setbatdamage(newValue)}
                   />
                 </div>
 
@@ -583,15 +884,14 @@ export const MakeReport = (props) => {
                   </h3>
                   <label id="mylabel"> Total Storage:</label>
                   <CDBInput
-                    type="search"
+                    type="number"
                     size="md"
                     hint="Enter Total Storage"
                     onChange={(event) => setmobstorage(event.target.value)}
                   />
-
                   <label id="mylabel"> Storage Available:</label>
                   <CDBInput
-                    type="search"
+                    type="number"
                     size="md"
                     hint="Enter Storage Available"
                     onChange={(event) => setavstorage(event.target.value)}
@@ -599,7 +899,7 @@ export const MakeReport = (props) => {
 
                   <label id="mylabel"> Ram Available:</label>
                   <CDBInput
-                    type="search"
+                    type="number"
                     size="md"
                     hint="Enter Ram"
                     className="mb-n4 mt-n3 input-nav"
@@ -641,7 +941,7 @@ export const MakeReport = (props) => {
                     defaultValue="Excellent"
                     onChange={(newValue) => setdualsim(newValue)}
                   />
-                  <label id="mylabel">Gps:</label>{" "}
+                  <label id="mylabel">Gps Status:</label>{" "}
                   <DropdownPicker
                     defaultValue="Excellent"
                     onChange={(newValue) => setgps(newValue)}
@@ -815,6 +1115,19 @@ export const MakeReport = (props) => {
                       phonestorage: mobstorage,
                       availablestorage: avstorage,
                       availableram: ram,
+
+                      phonescore: score.toFixed(1),
+                      displayscore:displayscore.toFixed(1),
+                      exteriorscore:exteriorscore.toFixed(1),
+                      camerascore: camerascore.toFixed(1),
+
+                      bodycondition: body,
+                      bodycolor: color,
+                      visiblescratches:scratches,
+                      headphonejack: hjdmg,
+                      chargeport:cpdmg,
+
+
                     });
 
                     alert("Report Uploaded Sucessfully!");

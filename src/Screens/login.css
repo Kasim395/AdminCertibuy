@@ -41,16 +41,13 @@
   width:300px;
   background-color: white;
   
-    padding: 20px;
+    padding: 10px;
     border: 6px solid #444f7b;
 }
 
 #login-page {
- 
-  width:300px;
-    background-color: black;
-    
-  }
+  width: 300px;
+}
   
 
 #forgetpassform{
@@ -62,7 +59,7 @@
 
   .login-form {
     
-    border-radius: 14px ;
+    padding:10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: white;
 

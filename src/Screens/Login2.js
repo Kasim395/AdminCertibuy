@@ -5,13 +5,10 @@ import { auth} from "./Firebase/firebase";
 import './login.css';
 
 import { CDBTable, CDBTableHeader, CDBTableBody, CDBContainer , CDBBtn} from "cdbreact";
-import { NavLink } from "react-router-dom";
-import { useHistory } from 'react-router-dom';
-
 
 import CertifiedBuy from "./CertifiedBuy.png"
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage2 = ({ onLogin2 }) => {
 
     
     const [email, setEmail] = useState('');
@@ -37,7 +34,7 @@ const LoginPage = ({ onLogin }) => {
       if (email.length > 1 && email.length < 11) {
         alert("Please recheck your email.");
       }
-      onLogin(email, password);
+      onLogin2(email, password);
     };
 
     const togglePasswordVisibility = () => {
@@ -59,10 +56,6 @@ const LoginPage = ({ onLogin }) => {
 //<h1 id="heading">Certified Buy</h1>
 
 
-const handleSwitchToInspector = () => {
-  window.location.assign('/inspector');
-};
-
   return (
 
 
@@ -75,12 +68,12 @@ const handleSwitchToInspector = () => {
 
 
 
-<div id="login-page" >
+<div id="login-page">
 
 <div id='myforms'>
 
     <form className="login-form" onSubmit={handleSubmit}>
-      <h3>Admin Login</h3>
+      <h3>Inspector Login</h3>
       <div className="form-group">
         <label htmlFor="email">Email:</label>
         <input
@@ -134,10 +127,6 @@ const handleSwitchToInspector = () => {
    
   </div>
 
-  <button onClick={handleSwitchToInspector}>Switch to Inspector Login</button>
-
- 
-
  
   </div>
   </div>
@@ -145,4 +134,4 @@ const handleSwitchToInspector = () => {
 };
 
 
-export default LoginPage;
+export default LoginPage2;

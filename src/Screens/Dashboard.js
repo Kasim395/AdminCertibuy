@@ -15,6 +15,7 @@ import "./Dashboard.css";
 import { db } from "./Firebase/firebase";
 import { NavLink } from "react-router-dom";
 import { onSnapshot, collection } from "firebase/firestore";
+import firebase from 'firebase/compat/app';
 
 export const Dashboard = () => {
   const data = {
@@ -74,6 +75,38 @@ export const Dashboard = () => {
       ],
     },
   };
+
+  const [collectionSize, setCollectionSize] = React.useState(0);
+  const [listings, setnumberlistings] = React.useState(0);
+
+  React.useEffect(() => {
+    // Reference to your Firestore collection
+    const collectionRef = firebase.firestore().collection('ItemLogs');
+
+    // Fetch the documents in the collection
+    collectionRef.get().then((querySnapshot) => {
+      // Get the size of the QuerySnapshot
+      const size = querySnapshot.size;
+      setCollectionSize(size);
+
+    });
+
+  }, []);
+
+  React.useEffect(() => {
+    // Reference to your Firestore collection
+    const collectionRef = firebase.firestore().collection('add');
+
+    // Fetch the documents in the collection
+    collectionRef.get().then((querySnapshot) => {
+      // Get the size of the QuerySnapshot
+      const size = querySnapshot.size;
+      setnumberlistings(size);
+
+    });
+
+  }, []);
+
 
   const [name, setname] = React.useState(null);
   const [notice, setnotice] = React.useState(null);
@@ -212,18 +245,19 @@ export const Dashboard = () => {
                       </div>
                     </div>
                     <h4 className="my-4 text-right text-dark h2 font-weight-bold">
-                      Rs 30,000
+                      Rs {collectionSize*1000}
                     </h4>
                     <CDBProgress
-                      value={65}
-                      height={8}
+
+                      value={collectionSize*0.5}
+                      height={18}
                       colors="primary"></CDBProgress>
                     <p className="mt-2 text-success small">
-                      <i className="fas fa-angle-up p-0"></i> 27.4%
+                      <i className="fas fa-angle-up p-0"></i> Target
                       <span
                         style={{ fontSize: "0.95em" }}
                         className="ml-2 font-weight-bold text-muted">
-                        Since last month
+                         Rs 400,000
                       </span>
                     </p>
                     
@@ -234,7 +268,7 @@ export const Dashboard = () => {
                   <div className="p-4 d-flex flex-column h-100">
                     <div className="d-flex align-items-center justify-content-between">
                       <h4 className="m-0 h5 font-weight-bold text-dark">
-                        Brands
+                        Brands  
                       </h4>
                       <div className="px-2 py-1 bg-grey rounded-circle">
                         <i className="fas fa-chart-line"></i>
@@ -306,14 +340,13 @@ export const Dashboard = () => {
 
                           </div>
                           
-                          
-
 
                         </div>
                       </div>
                     </div>
-                    
+                    <h3>Number of Active Listings: {listings}</h3>
                   </div>
+                  
                 </div>
 
                 <div className="card-bg w-100 border d-flex flex-column">
