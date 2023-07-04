@@ -14,8 +14,15 @@ import Navbar from "../Navbar";
 import "./Dashboard.css";
 import { db } from "./Firebase/firebase";
 import { NavLink } from "react-router-dom";
-import { onSnapshot, collection } from "firebase/firestore";
-import firebase from 'firebase/compat/app';
+import {
+  onSnapshot,
+  collection,
+  query,
+  limit,
+  orderBy,
+} from "firebase/firestore";
+import firebase from "firebase/compat/app";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 export const Dashboard = () => {
   const data = {
@@ -31,9 +38,7 @@ export const Dashboard = () => {
       ],
     },
     chart2: {
-      labels: [
-        "Apple", "Samsung", "Xiaomi"
-      ],
+      labels: ["Apple", "Samsung", "Xiaomi"],
       datasets: [
         {
           label: "My First dataset",
@@ -81,42 +86,37 @@ export const Dashboard = () => {
 
   React.useEffect(() => {
     // Reference to your Firestore collection
-    const collectionRef = firebase.firestore().collection('ItemLogs');
+    const collectionRef = firebase.firestore().collection("ItemLogs");
 
     // Fetch the documents in the collection
     collectionRef.get().then((querySnapshot) => {
       // Get the size of the QuerySnapshot
       const size = querySnapshot.size;
       setCollectionSize(size);
-
     });
-
   }, []);
 
   React.useEffect(() => {
     // Reference to your Firestore collection
-    const collectionRef = firebase.firestore().collection('add');
+    const collectionRef = firebase.firestore().collection("add");
 
     // Fetch the documents in the collection
     collectionRef.get().then((querySnapshot) => {
       // Get the size of the QuerySnapshot
       const size = querySnapshot.size;
       setnumberlistings(size);
-
     });
-
   }, []);
 
-
-  const [name, setname] = React.useState(null);
-  const [notice, setnotice] = React.useState(null);
+  const [name, setname] = React.useState("");
+  const [notice, setnotice] = React.useState("");
   const [uname, setuname] = React.useState(null);
   const [unotice, setunotice] = React.useState(null);
 
   const [ndata, setndata] = React.useState([]);
   const [rdata, setrdata] = React.useState([]);
   const [qdata, setqdata] = React.useState([]);
-  
+
   const [currentDate, setCurrentDate] = React.useState(null);
   const [currentTime, setCurrentTime] = React.useState(null);
 
@@ -164,8 +164,23 @@ export const Dashboard = () => {
     let unsub;
     const fetchCards = async () => {
       unsub = onSnapshot(collection(db, "NoticeBoard"), (snapshot) => {
+        const sortedDocs = snapshot.docs.sort((a, b) => {
+          // First, compare the "dates" field
+          const dateComparison = a.data().dates.localeCompare(b.data().dates);
+
+          // If the "dates" are the same, compare the "times" field
+          if (dateComparison === 0) {
+            return a.data().times.localeCompare(b.data().times);
+          }
+
+          // Otherwise, return the comparison based on the "dates" field
+          return dateComparison;
+        });
+
+        const limitedDocs = sortedDocs.slice(0, 3);
+
         setndata(
-          snapshot.docs.map((doc) => ({
+          limitedDocs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }))
@@ -181,8 +196,9 @@ export const Dashboard = () => {
     let unsub;
     const fetchCards = async () => {
       unsub = onSnapshot(collection(db, "ReportAd"), (snapshot) => {
+        const limitedDocs = snapshot.docs.slice(0, 4);
         setrdata(
-          snapshot.docs.map((doc) => ({
+          limitedDocs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }))
@@ -198,8 +214,9 @@ export const Dashboard = () => {
     let unsub;
     const fetchCards = async () => {
       unsub = onSnapshot(collection(db, "UserQueries"), (snapshot) => {
+        const limitedDocs = snapshot.docs.slice(0, 4);
         setqdata(
-          snapshot.docs.map((doc) => ({
+          limitedDocs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }))
@@ -212,9 +229,76 @@ export const Dashboard = () => {
   }, []);
 
   const dataclick = () => {
-    postnotice();
-    updateDateTime();
+    if (name.length > 1 && notice.length > 1) {
+      postnotice();
+      updateDateTime();
+      window.location.reload();
+    } else {
+      alert("Name or Notice Field is empty!");
+    }
   };
+
+  const [reportprice, setReportPrice] = React.useState("");
+
+  const handleReportPriceChange = (event) => {
+    // Ensure that only numeric values are entered
+    const value = event.target.value.replace(/[^0-9]/g, "");
+    setReportPrice(value);
+  };
+
+  const [target, settarget] = React.useState(100000);
+  const [rprice, setrprice] = React.useState(1000);
+
+  const progressPercentage = ((collectionSize * rprice) / target) * 100;
+
+  const handleTargetPriceChange = (e) => {
+    const value = e.target.value;
+    settarget(value);
+  };
+
+  React.useEffect(() => {
+    const storedTarget = localStorage.getItem("targetPrice");
+    if (storedTarget) {
+      settarget(storedTarget);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    localStorage.setItem("targetPrice", target);
+  }, [target]);
+
+  const fetchReportPrice = async () => {
+    try {
+      const docRef = doc(db, "ReportPrice", "xMOTnUjN2rNWT4FybEvI");
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const reportPrice = docSnap.data().reportprice;
+        // Use the reportPrice value here
+        console.log(reportPrice);
+        setrprice(reportPrice);
+      } else {
+        console.log("Document not found");
+      }
+    } catch (error) {
+      console.log("Error fetching document:", error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchReportPrice();
+  }, []);
+
+  // Call the fetchReportPrice function to fetch the reportprice field
+  fetchReportPrice();
+
+  const [phoneNumber, setPhoneNumber] = React.useState("923214152205");
+
+  const handleLinkClick = () => {
+    const whatsappUrl = `https://wa.me/${phoneNumber}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
 
   return (
     <div className="dashboard d-flex">
@@ -245,11 +329,10 @@ export const Dashboard = () => {
                       </div>
                     </div>
                     <h4 className="my-4 text-right text-dark h2 font-weight-bold">
-                      Rs {collectionSize*1000}
+                      Rs {collectionSize * rprice}
                     </h4>
                     <CDBProgress
-
-                      value={collectionSize*0.5}
+                      value={progressPercentage}
                       height={18}
                       colors="primary"></CDBProgress>
                     <p className="mt-2 text-success small">
@@ -257,10 +340,63 @@ export const Dashboard = () => {
                       <span
                         style={{ fontSize: "0.95em" }}
                         className="ml-2 font-weight-bold text-muted">
-                         Rs 400,000
+                        Rs {target}
                       </span>
                     </p>
-                    
+
+                    <h4 className="m-13 h5 font-weight-bold text-dark">
+                      Set Target:
+                    </h4>
+                    <div className="row">
+                      <div className="col-6">
+                        <input
+                          style={{ background: "white", width: "100%" }}
+                          type="number"
+                          value={target}
+                          onChange={handleTargetPriceChange}
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4
+                        className="m-11 h5 font-weight-bold text-dark"
+                        style={{ marginBottom: "10px", marginTop: "9px" }}>
+                        Report Price: Rs {rprice}
+                      </h4>
+
+                      <h4 className="m-13 h5 font-weight-bold text-dark">
+                        Set Report Price:
+                      </h4>
+
+                      <input
+                        style={{ background: "white", width: "100%" }}
+                        type="number"
+                        value={reportprice}
+                        onChange={handleReportPriceChange}
+                      />
+                    </div>
+                    <CDBBtn
+                      style={{ background: "#333", width: "100%" }}
+                      onClick={async () => {
+                        try {
+                          const docRef = doc(
+                            db,
+                            "ReportPrice",
+                            "xMOTnUjN2rNWT4FybEvI"
+                          );
+                          await updateDoc(docRef, {
+                            reportprice: reportprice,
+                          });
+                          
+                          alert("Price Updated!");
+                          window.location.reload();
+                        } catch (error) {
+                          console.error("Error updating document:", error);
+                        }
+                      }}>
+                      Set Report Price
+                    </CDBBtn>
                   </div>
                 </div>
 
@@ -268,7 +404,7 @@ export const Dashboard = () => {
                   <div className="p-4 d-flex flex-column h-100">
                     <div className="d-flex align-items-center justify-content-between">
                       <h4 className="m-0 h5 font-weight-bold text-dark">
-                        Brands  
+                        Brands
                       </h4>
                       <div className="px-2 py-1 bg-grey rounded-circle">
                         <i className="fas fa-chart-line"></i>
@@ -296,9 +432,7 @@ export const Dashboard = () => {
                         <p className="m-0">Apple</p>
                         <p className="text-success small">10.57</p>
                         <div>
-
-                          
-                        <div
+                          <div
                             className="d-flex align-items-center justify-content-between"
                             style={{ color: "blue" }}>
                             <span
@@ -311,7 +445,6 @@ export const Dashboard = () => {
                             <span className="small">Samsung</span>
                           </div>
 
-                          
                           <div
                             className="d-flex align-items-center justify-content-between"
                             style={{ color: "green" }}>
@@ -323,7 +456,6 @@ export const Dashboard = () => {
                               &#8226;
                             </span>
                             <span className="small">Apple</span>
-
                           </div>
 
                           <div
@@ -337,16 +469,17 @@ export const Dashboard = () => {
                               &#8226;
                             </span>
                             <span className="small">Xiaomi</span>
-
                           </div>
-                          
-
                         </div>
                       </div>
                     </div>
                     <h3>Number of Active Listings: {listings}</h3>
+
+                    <a href={`https://wa.me/${phoneNumber}`} onClick={handleLinkClick}>
+      {phoneNumber}
+    </a>
+
                   </div>
-                  
                 </div>
 
                 <div className="card-bg w-100 border d-flex flex-column">
@@ -421,12 +554,7 @@ export const Dashboard = () => {
                         </CDBBtn>
                         <strong>Admin Name:</strong>
                         <br></br>
-                        <input
-                          id="input-field"
-                          type="text"
-                          defaultValue={item.names}
-                          onChange={(e) => setuname(e.target.value)}
-                        />
+                        <h5>{item.names}</h5>
                         <strong>Time/Date: </strong>
                         {item.times} / {item.dates} <br></br>
                         <strong>Notice: </strong> <br></br>
@@ -452,7 +580,7 @@ export const Dashboard = () => {
                                   .collection("NoticeBoard")
                                   .doc(item.id)
                                   .set({
-                                    names: uname,
+                                    names: item.names,
                                     notices: unotice,
                                     dates: currentDate,
                                     times: currentTime,
@@ -512,10 +640,10 @@ export const Dashboard = () => {
                               size="medium"
                               onClick={async () => {
                                 setTimeout(() => {
-                                  db.collection("Incentre")
+                                  db.collection("ReportAd")
                                     .doc(item.id)
                                     .delete();
-                                }, 20000);
+                                }, 10000);
                               }}>
                               Check AD
                             </CDBBtn>
@@ -568,20 +696,14 @@ export const Dashboard = () => {
                     </div>
                   ))}
                 </div>
-
-               
-               
-               
-               
               </div>
             </div>
-            <footer className="mx-auto my-3 text-center" >
-              <small>&copy; Certified Buy Center, 2023 corp. All rights are always reserveds.</small>
+            <footer className="mx-auto my-3 text-center">
+              <small>
+                &copy; Certified Buy Center, 2023 corp. All rights are always
+                reserveds.
+              </small>
             </footer>
-              
-
-
-
           </div>
         </div>
       </div>

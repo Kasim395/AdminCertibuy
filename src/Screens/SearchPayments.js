@@ -100,8 +100,8 @@ export const SearchPayment = () => {
           <div  style={{
                 display: "flex",
                 justifyContent: "center",
-                marginTop: 15,
-                height: 55,
+                marginTop: 2,
+                height: 35,
               }}>
 
 

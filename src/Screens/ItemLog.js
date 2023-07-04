@@ -14,6 +14,9 @@ export const ItemLog = () => {
 
  
 
+ 
+
+/*
   React.useEffect(() => {
     let unsub;
     const fetchCards = async () => {
@@ -30,6 +33,8 @@ export const ItemLog = () => {
     fetchCards();
     return unsub;
   }, []);
+
+  */
 
   React.useEffect(() => {
     let unsub;
@@ -83,6 +88,43 @@ export const ItemLog = () => {
     fetchCards();
     return unsub;
   }, [searchQuery]);
+
+  React.useEffect(() => {
+    let unsub;
+    const fetchCards = async () => {
+      unsub = onSnapshot(collection(db, "AwaitILogs"), (snapshot) => {
+        const sortedDocs = snapshot.docs.sort((a, b) => {
+          // First, compare the "dates" field
+          const dateComparison = a.data().date.localeCompare(b.data().date);
+          
+          // If the "dates" are the same, compare the "times" field
+          if (dateComparison === 0) {
+            return a.data().time.localeCompare(b.data().time);
+          }
+          
+          // Otherwise, return the comparison based on the "dates" field
+          return dateComparison;
+        });
+  
+        const limitedDocs = sortedDocs.slice(0, 3);
+  
+        setndata(
+          limitedDocs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+        );
+      });
+    };
+  
+    fetchCards();
+    return unsub;
+  }, []);
+  
+
+
+
+
 
   return (
     <div className="dashboard d-flex">

@@ -94,19 +94,21 @@ const handleSwitchToInspector = () => {
       </div>
       <div className="form-group">
         <label htmlFor="password">Password:</label>
+
         <input
-           type={showPassword ? "text" : "password"}
-          id="password"
-          value={password}
-          onChange={handlePasswordChange}
-          placeholder="Enter your password"
-          required
-        />
+  type={showPassword ? "text" : "password"}
+  id="password"
+  value={password}
+  onChange={handlePasswordChange}
+  placeholder="Enter your password"
+  required
+/>
+
       </div>
       
-      <button onClick={togglePasswordVisibility}>
-        {showPassword ? "Hide" : "Show"} Password
-      </button>
+      <button type="button" onClick={togglePasswordVisibility}>
+  {showPassword ? "Hide" : "Show"} Password
+</button>
       <CDBBtn type='submit'> Login</CDBBtn>
     </form>
 

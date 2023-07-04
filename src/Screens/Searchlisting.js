@@ -57,6 +57,22 @@ export const Searchlisting = (props) => {
     return unsub;
   }, [searchQuery]);
 
+
+
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+
+  const handleNext = () => {
+   // setCurrentIndex((prevIndex) => (prevIndex + 1) % Data.length);
+    setCurrentIndex(currentIndex+1);
+  };
+
+  const handlePrevious = () => {
+  //  setCurrentIndex((prevIndex) => (prevIndex - 1 + Data.length) % Data.length);
+    setCurrentIndex(currentIndex-1);
+  };
+
+
+
   return (
     <div className="dashboard d-flex">
       <div>
@@ -72,99 +88,140 @@ export const Searchlisting = (props) => {
         }}>
         <Navbar />
         <div style={{ height: "100%", backgroundColor: "grey" }}>
+          
           <div
             style={{
               padding: "20px 5%",
               height: "calc(100% - 64px)",
               overflowY: "scroll",
             }}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: 15,
-                height: 55,
-              }}></div>
 
+<h2 style={{ textAlign: "center", fontWeight:'bold' }}>Search Ads  </h2>
+
+
+<div style={{backgroundColor:'#E1D9D1', borderRadius:40, height:'650px'}}>
             <div
               style={{
                 display: "flex",
                 justifyContent: "center",
                 marginTop: 15,
                 height: 55,
+                paddingTop:'10px' 
               }}>
-              <div></div>
+              <input
+                style={{ width: "80%"}}
+                placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
 
-             
+          </div>
 
 
-            </div>
-            <h3>{dataz}</h3>
-            <div className="d-flex card-section">
-              <div className="cards-container">
+
+              
                 {Data.map((item) => (
+                  
                   <div
-                    className="card"
+                  className="card d-flex flex-column align-items-center"
+                  style={{
+                    borderRadius: 35,
+                    backgroundColor: "#429E9D",
+                    borderWidth: 4,
+                    borderColor: "black",
+                    width: "100%",
+                    margin: "0 auto",
+                    height:'600px'
+                  }}
+                >
+                  <CDBBtn
                     style={{
-                      borderRadius: 35,
-                      backgroundColor: "#429E9D",
-                      borderWidth: 4,
-                      borderColor: "black",
-                    }}>
-                    <CDBBtn
-                      style={{
-                        background: "red",
-                        width: 40,
-                        alignSelf: "flex-end",
-                        marginBottom: "2%",
-                      }}
-                      flat
-                      size="small"
-                      onClick={async () =>
-                        db.collection("add").doc(item.id).delete()
-                      }>
-                      {" "}
-                      <text style={{ fontWeight: "bold", fontSize: 16 }}>
-                        {" "}
-                        X{" "}
-                      </text>{" "}
-                    </CDBBtn>
-                    <img
-                      src={item.image}
-                      alt="ad-img"
-                      style={{ width: "100%", height: 250, borderRadius: 20 }}
-                    />
+                      background: "red",
+                      width: 40,
+                      alignSelf: "flex-end",
+                      marginBottom: "2%",
+                    }}
+                    flat
+                    size="small"
+                    onClick={async () => db.collection("add").doc(item.id).delete()}
+                  >
+                    <text style={{ fontWeight: "bold", fontSize: 16 }}>X</text>
+                  </CDBBtn>
+                
+                  <div className="row">
+
+                    <div className="col-6">
+                    
                     <h5
-                      className="card-title"
-                      style={{
-                        textAlign: "center",
-                        fontWeight: "bold",
-                        padding: 6,
-                      }}>
-                      {item.title}
-                    </h5>
-                    <div className="row">
-                      <div className="col-6">
-                        <strong>Price: </strong> {item.price}
+                        className="card-title"
+                        style={{
+                          textAlign: "center",
+                          fontWeight: "bold",
+                          marginBottom: 31,
+                        }}
+                      >
+                        {item.title}
+                      </h5>
+                      <div className="row">
+                        <div className="col-6">
+                          <strong>Price: </strong> {item.price}
+                        </div>
+                        <div className="col-6">
+                          <strong>Date: </strong> {item.date}
+                        </div>
                       </div>
-                      <div className="col-6">
-                        <strong>Date: </strong> {item.date}
-                      </div>
+                      <strong>
+                        <br />
+                        Description:
+                      </strong>{" "}
+                      {item.description} <br />
+                  
+                    
                     </div>
-                    <strong>
-                      {" "}
-                      <br></br>Description:{" "}
-                    </strong>{" "}
-                    {item.description} <br></br>
-                    <br></br>
-                    <strong>Seller: </strong> {item.sellerID} <br></br>
-                    <br></br>
-                    <strong>Ad ID: </strong> {item.adID} <br></br>
-                    <div className="map-container"></div>
+                
+                    <div className="col-6">
+
+                      <div style={{marginBottom:'6%', borderWidth: 4,
+                          borderColor: "brown"}}>
+                            
+                      {item.image && Array.isArray(item.image) && item.image.length > 0 ? (
+                        <img
+                          src={item.image[currentIndex]}
+                          alt="ad-img"
+                          style={{ width: "100%", height: 250, borderRadius: 20,  }}
+                        />
+                      ) : null}
+                      <div className="row">
+                        <div className="col-6">
+                          <button onClick={handlePrevious}>Previous</button>
+                        </div>
+                        <div className="col-6">
+                          <button onClick={handleNext}>Next</button>
+                        </div>
+                      </div>
+                      </div>
+
+                      {/* Rest of the card content */}
+                     
+                      <div>
+                      <br />
+                      <strong>Seller ID: </strong> {item.sellerID} <br />
+                      <br />
+                      <strong>Ad ID: </strong> {item.adID} <br />
+                      </div>
+
+                    </div>
                   </div>
+                </div>
+                
                 ))}
-              </div>
+              
+            
+
+
             </div>
+
+
           </div>
         </div>
       </div>

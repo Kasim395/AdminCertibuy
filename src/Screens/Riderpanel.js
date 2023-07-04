@@ -168,6 +168,11 @@ export const Riderpanel = () => {
                                   console.error(error);
                                 }
 
+                                setTimeout(() => {
+                                  db.collection("inBoundPhone")
+                                    .doc(item.id)
+                                    .delete();
+                                }, 5000);
 
                               }}>
                               Send To Rider

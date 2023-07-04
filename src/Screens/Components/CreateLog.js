@@ -50,6 +50,9 @@ export const CreateLog = (props) => {
     }, 100);
 
  setTimeout(() => {
+
+
+  
       db.collection("Incentre").doc(datas9).delete()
     }, 200);
     
