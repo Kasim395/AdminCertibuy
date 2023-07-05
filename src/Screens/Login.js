@@ -4,7 +4,7 @@ import { auth} from "./Firebase/firebase";
 
 import './login.css';
 
-import { CDBTable, CDBTableHeader, CDBTableBody, CDBContainer , CDBBtn} from "cdbreact";
+import { CDBTable , CDBBtn} from "cdbreact";
 import { NavLink } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
 
@@ -14,8 +14,8 @@ import CertifiedBuy from "./CertifiedBuy.png"
 const LoginPage = ({ onLogin }) => {
 
     
-    const [email, setEmail] = useState('');
-    const [email2, setEmail2] = useState('');
+    const [email, setEmail] = useState(' ');
+    const [email2, setEmail2] = useState(' ');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showResetPassword, setShowResetPassword] = useState(false);
@@ -28,15 +28,21 @@ const LoginPage = ({ onLogin }) => {
     const handlePasswordChange = (e) => {
       setPassword(e.target.value);
     };
+
+    console.log(email)
   
     const handleSubmit = (e) => {
       e.preventDefault();
-      if (password.length > 1 && password.length < 8) {
-        alert("Please recheck your password.");
+
+      if (!email) {
+        alert("Please recheck the email.");
       }
-      if (email.length > 1 && email.length < 11) {
-        alert("Please recheck your email.");
+
+      if (password.length < 8) {
+        alert("Please recheck the password.");
+        return;
       }
+    
       onLogin(email, password);
     };
 
@@ -65,15 +71,8 @@ const handleSwitchToInspector = () => {
 
   return (
 
-
-
-
 <div id="main">
-
-
 <img id='pix' src={CertifiedBuy} alt="My Image" />
-
-
 
 <div id="login-page" >
 
@@ -83,13 +82,18 @@ const handleSwitchToInspector = () => {
       <h3>Admin Login</h3>
       <div className="form-group">
         <label htmlFor="email">Email:</label>
+
+
+
+
         <input
-          type="email"
           id="email"
+          type='email'
           value={email}
           onChange={handleEmailChange}
-          placeholder="Enter your email"
-          required
+        placeholder='Enter Your Email'
+          
+          //required
         />
       </div>
       <div className="form-group">
@@ -134,10 +138,11 @@ const handleSwitchToInspector = () => {
       )}
     </div>
    
+
   </div>
 
-  <button onClick={handleSwitchToInspector}>Switch to Inspector Login</button>
-
+<CDBBtn onClick={handleSwitchToInspector} style={{width:'100%', background:'#5065A8'}}  >Switch To Inspector Login</CDBBtn>
+ 
  
 
  

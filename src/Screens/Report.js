@@ -165,9 +165,7 @@ export const Reports = () => {
               </div>
             </div>
             </div>
-            <footer className="mx-auto my-3 text-center">
-              <small>&copy; Certified Buy, 2023. All rights reserved.</small>
-            </footer>
+            
           </div>
         </div>
       </div>

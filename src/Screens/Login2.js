@@ -28,12 +28,17 @@ const LoginPage2 = ({ onLogin2 }) => {
   
     const handleSubmit = (e) => {
       e.preventDefault();
-      if (password.length > 1 && password.length < 8) {
-        alert("Please recheck your password.");
+
+      if (!email) {
+        alert("Please recheck the email.");
       }
-      if (email.length > 1 && email.length < 11) {
-        alert("Please recheck your email.");
+
+      if (password.length < 8) {
+        alert("Please recheck the password.");
+        return;
       }
+
+    
       onLogin2(email, password);
     };
 
@@ -76,8 +81,8 @@ const LoginPage2 = ({ onLogin2 }) => {
       <h3>Inspector Login</h3>
       <div className="form-group">
         <label htmlFor="email">Email:</label>
+
         <input
-          type="email"
           id="email"
           value={email}
           onChange={handleEmailChange}
@@ -97,9 +102,9 @@ const LoginPage2 = ({ onLogin2 }) => {
         />
       </div>
       
-      <button onClick={togglePasswordVisibility}>
-        {showPassword ? "Hide" : "Show"} Password
-      </button>
+      <button type="button" onClick={togglePasswordVisibility}>
+              {showPassword ? "Hide" : "Show"} Password
+            </button>
       <CDBBtn type='submit'> Login</CDBBtn>
     </form>
 

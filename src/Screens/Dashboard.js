@@ -25,61 +25,8 @@ import firebase from "firebase/compat/app";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 export const Dashboard = () => {
-  const data = {
-    chart1: {
-      labels: ["Apple", "Samsung", "Xiaomi"],
-      datasets: [
-        {
-          label: "My First dataset",
-          backgroundColor: ["green", "blue", "purple"],
-          borderWidth: 0,
-          data: [35, 40, 25],
-        },
-      ],
-    },
-    chart2: {
-      labels: ["Apple", "Samsung", "Xiaomi"],
-      datasets: [
-        {
-          label: "My First dataset",
-          backgroundColor: "rgba(255, 153, 51, 0.8)",
-          borderColor: "rgb(102, 51, 0)",
-          data: [65, 59, 75, 81, 56, 55, 40],
-        },
-        {
-          label: "My Second dataset",
-          backgroundColor: "#2F80ED",
-          borderColor: "rgb(0, 41, 102)",
-          data: [38, 48, 60, 79, 96, 47, 80],
-        },
-      ],
-    },
-  };
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    legend: { display: false },
-    scales: {
-      xAxes: [
-        {
-          ticks: {
-            display: false,
-          },
-        },
-      ],
-      yAxes: [
-        {
-          gridLines: {
-            display: false,
-          },
-          ticks: {
-            display: false,
-          },
-        },
-      ],
-    },
-  };
+
 
   const [collectionSize, setCollectionSize] = React.useState(0);
   const [listings, setnumberlistings] = React.useState(0);
@@ -155,6 +102,41 @@ export const Dashboard = () => {
     setCurrentDate(date);
     setCurrentTime(time);
   };
+
+  const [type, settype] = React.useState();
+
+    const [brandCounts, setBrandCounts] = React.useState({
+      Apple: 0,
+      Xiaomi: 0,
+      Samsung: 0,
+      Vivo: 0,
+      Oppo: 0,
+      Google: 0
+    });
+  
+    React.useEffect(() => {
+      const db = firebase.firestore();
+      db.collection('add')
+        .get()
+        .then((querySnapshot) => {
+          const counts = { ...brandCounts };
+  
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const brand = data.brand;
+  
+            if (counts.hasOwnProperty(brand)) {
+              counts[brand]++;
+            }
+          });
+  
+          setBrandCounts(counts);
+        })
+        .catch((error) => {
+          console.log('Error getting documents: ', error);
+        });
+    }, []); // Empty dependency array to run the effect only once
+
 
   React.useEffect(() => {
     updateDateTime();
@@ -299,6 +281,24 @@ export const Dashboard = () => {
     window.open(whatsappUrl, "_blank");
   };
 
+  const data = {
+    chart1: {
+      labels: ["Apple", "Samsung", "Xiaomi", "Vivo", "Oppo", "Google"],
+      datasets: [
+        {
+          label: "My First dataset",
+          backgroundColor: ["green", "blue", "purple", "brown", "orange","red"],
+          borderWidth: 0,
+          data: [brandCounts['Apple'], brandCounts['Samsung'] , brandCounts['Xiaomi'], brandCounts['Vivo'], brandCounts['Oppo'],
+          brandCounts['Google']
+        ],
+          
+        },
+      ],
+    },
+    
+  };
+
 
   return (
     <div className="dashboard d-flex">
@@ -404,7 +404,7 @@ export const Dashboard = () => {
                   <div className="p-4 d-flex flex-column h-100">
                     <div className="d-flex align-items-center justify-content-between">
                       <h4 className="m-0 h5 font-weight-bold text-dark">
-                        Brands
+                        Brands 
                       </h4>
                       <div className="px-2 py-1 bg-grey rounded-circle">
                         <i className="fas fa-chart-line"></i>
@@ -429,8 +429,7 @@ export const Dashboard = () => {
                         />
                       </CDBContainer>
                       <div className="text-right w-25">
-                        <p className="m-0">Apple</p>
-                        <p className="text-success small">10.57</p>
+                  
                         <div>
                           <div
                             className="d-flex align-items-center justify-content-between"
@@ -442,7 +441,7 @@ export const Dashboard = () => {
                               }}>
                               &#8226;
                             </span>
-                            <span className="small">Samsung</span>
+                            <span className="small">Samsung: {brandCounts['Samsung']}</span>
                           </div>
 
                           <div
@@ -455,7 +454,7 @@ export const Dashboard = () => {
                               }}>
                               &#8226;
                             </span>
-                            <span className="small">Apple</span>
+                            <span className="small">Apple: {brandCounts['Apple']}</span>
                           </div>
 
                           <div
@@ -468,16 +467,58 @@ export const Dashboard = () => {
                               }}>
                               &#8226;
                             </span>
-                            <span className="small">Xiaomi</span>
+                            <span className="small">Xiaomi: {brandCounts['Xiaomi']}</span>
                           </div>
+
+                          <div
+                            className="d-flex align-items-center justify-content-between"
+                            style={{ color: "brown" }}>
+                            <span
+                              style={{
+                                fontSize: "3em",
+                                margin: "-2rem 0px -1.5rem 0px",
+                              }}>
+                              &#8226;
+                            </span>
+                            <span className="small">Vivo: {brandCounts['Vivo']}</span>
+                          </div>
+
+                          <div
+                            className="d-flex align-items-center justify-content-between"
+                            style={{ color: "orange" }}>
+                            <span
+                              style={{
+                                fontSize: "3em",
+                                margin: "-2rem 0px -1.5rem 0px",
+                              }}>
+                              &#8226;
+                            </span>
+                            <span className="small">Oppo: {brandCounts['Oppo']}</span>
+                          </div>
+
+                          <div
+                            className="d-flex align-items-center justify-content-between"
+                            style={{ color: "red" }}>
+                            <span
+                              style={{
+                                fontSize: "3em",
+                                margin: "-2rem 0px -1.5rem 0px",
+                              }}>
+                              &#8226;
+                            </span>
+                            <span className="small">Google: {brandCounts['Google']}</span>
+                          </div>
+
+
                         </div>
                       </div>
                     </div>
-                    <h3>Number of Active Listings: {listings}</h3>
 
-                    <a href={`https://wa.me/${phoneNumber}`} onClick={handleLinkClick}>
-      {phoneNumber}
-    </a>
+<div style={{height:30}}></div>
+
+
+                    <h2> <b>Number of Active Listings:</b></h2>
+                    <h1 style={{color:'blue', marginLeft:150, fontSize:75}}> <b>{listings}</b> </h1>
 
                   </div>
                 </div>
@@ -690,6 +731,10 @@ export const Dashboard = () => {
                         <strong>Date: </strong> {item.date} <br></br>
                         <strong>Name: </strong> {item.name} <br></br>
                         <strong>Email: </strong> {item.email} <br></br>
+                        <strong>Whatsapp: </strong> {} <br></br>
+                        <a href={`https://wa.me/${item.number}`} onClick={handleLinkClick}>
+      {item.number}
+    </a>
                         <strong style={{ paddingTop: 10 }}>Query: </strong>{" "}
                         {item.query} <br></br>
                       </div>
@@ -698,12 +743,7 @@ export const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <footer className="mx-auto my-3 text-center">
-              <small>
-                &copy; Certified Buy Center, 2023 corp. All rights are always
-                reserveds.
-              </small>
-            </footer>
+            
           </div>
         </div>
       </div>

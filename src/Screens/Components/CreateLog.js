@@ -43,6 +43,9 @@ export const CreateLog = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (adminName.length > 2 && riderName.length > 2 && imeiNumber.length > 5 && listOfAccessories.length > 2 && comments.length > 2 && brand.length > 2) 
+    {
+
     downloadQRCode();
 
     setTimeout(() => {
@@ -50,13 +53,19 @@ export const CreateLog = (props) => {
     }, 100);
 
  setTimeout(() => {
-
-
   
       db.collection("Incentre").doc(datas9).delete()
     }, 200);
     
     alert("Log Saved!");
+  }
+
+  else
+  {
+
+  alert("Error: Complete All Fields!");
+  }
+
   };
 
   const downloadQRCode = () => {

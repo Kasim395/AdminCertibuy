@@ -35,7 +35,7 @@ export const Riderpanel = () => {
   React.useEffect(() => {
     let unsub;
     const fetchCards = async () => {
-      unsub = onSnapshot(collection(db, "inBoundPhone"), (snapshot) => {
+      unsub = onSnapshot(collection(db, "inBoundPhonesCollection"), (snapshot) => {
         setndata(
           snapshot.docs.map((doc) => ({
             id: doc.id,
@@ -169,7 +169,7 @@ export const Riderpanel = () => {
                                 }
 
                                 setTimeout(() => {
-                                  db.collection("inBoundPhone")
+                                  db.collection("inBoundPhonesCollection")
                                     .doc(item.id)
                                     .delete();
                                 }, 5000);
@@ -223,15 +223,6 @@ export const Riderpanel = () => {
                         </div>
                       </div>
                     ))}
-
-
-
-
-
-
-
-
-
 
 
 

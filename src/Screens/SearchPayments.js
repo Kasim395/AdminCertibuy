@@ -129,7 +129,7 @@ export const SearchPayment = () => {
                       flat
                       size="small"
                       onClick={async () =>
-                        db.collection("add").doc(item.id).delete()
+                        db.collection("PaymentsMade").doc(item.id).delete()
                       }>
                       {" "}
                       <text style={{ fontWeight: "bold", fontSize: 16 }}>

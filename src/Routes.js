@@ -19,7 +19,7 @@ import { SearchPayment } from "./Screens/SearchPayments";
 
 const Routes = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-  const allowedUserId = '9ADJmb7rsIhyPLD1gCS6lzmg6q33';
+  const allowedUserId = ['9ADJmb7rsIhyPLD1gCS6lzmg6q33', 'RIPKeZ0o01ZrOzzdCUdOpEhjsX42'];
   const history = useHistory();
   
 
@@ -31,7 +31,7 @@ const Routes = () => {
         localStorage.setItem('firebaseToken', token);
 
         // Check if the user ID is allowed
-        if (user.uid === allowedUserId) {
+        if(allowedUserId.includes(user.uid)) {
           setIsAuthenticated(true);
         } else {
           // Unauthorized user
@@ -57,7 +57,7 @@ const Routes = () => {
       const user = userCredential.user;
 
       // Check if the user ID is allowed
-      if (user.uid === allowedUserId) {
+      if(allowedUserId.includes(user.uid)) {
         const token = await user.getIdToken();
         localStorage.setItem('firebaseToken', token);
         setIsAuthenticated(true);
@@ -87,7 +87,7 @@ const Routes = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/">
+        <Route   exact path="/">
           {isAuthenticated ? (
             <Redirect to="/dashboard" />
           ) : (
@@ -106,7 +106,7 @@ const Routes = () => {
           }
         />
 
-        <Route path="/createlog" component={CreateLog} />
+        <Route path="/createlog"  component={CreateLog} />
         <Route path="/riderpanel" component={Riderpanel} />
         <Route path="/itemlog" component={ItemLog} />
         

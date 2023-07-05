@@ -117,6 +117,7 @@ export const MakeReport = (props) => {
     // Upload all files and retrieve the URLs
     Promise.all(uploadPromises)
       .then(function (downloadURLs) {
+        alert("Images Ready!");
         console.log("Files uploaded successfully");
         console.log("Download URLs:", downloadURLs);
         setImageArray(downloadURLs);
@@ -335,7 +336,7 @@ export const MakeReport = (props) => {
       newScore += 0.2 ;
     }
   
-    setscore(newScore*(0.95));
+    setscore(newScore*(0.8));
   }, [comment]);
 
 
@@ -464,7 +465,7 @@ setexteriorscore(ExtScore);
               height: "calc(100% - 64px)",
               overflowY: "scroll",
             }}>
-            <h1 style={{ textAlign: "center" }}>Make Report {score.toFixed(1)} (Ext: {exteriorscore}) (Disp: {displayscore.toFixed(1)}) (Cam: {camerascore.toFixed(1)}) </h1> <br></br>
+            <h1 style={{ textAlign: "center" }}>Make Report </h1> <br></br>
             <div style={{ backgroundColor: "white", margin: 20 }}>
               <Dropzone onDrop={handleDrop}>
                 {({ getRootProps, getInputProps }) => (
@@ -1018,6 +1019,14 @@ setexteriorscore(ExtScore);
                 size="large"
                 className="border-0 ml-auto px-2 my-2"
                 onClick={async () => {
+
+                if( name.length > 2 && quali.length > 2 && experience.length > 2 && comment.length > 2 &&
+                brand.length>2 && model.length>2 && imei.length>2 &&
+                warranty.length>2 && color.length>2  && os.length>2 ) 
+                
+                {
+
+
                   const query = db
                     .collection("TrackingPhone")
                     .where("adID", "==", data3);
@@ -1145,16 +1154,19 @@ setexteriorscore(ExtScore);
                     console.error(error);
                   }
 
+                }
+
+                else
+                {
+                  alert("Error: Complete All Fields!");
+                }
+
                   // Update the document
                 }}>
                 Submit Report
               </CDBBtn>
             </div>
-            <footer className="mx-auto my-3 text-center">
-              <small>
-                &copy; Certified Buy, 2023. All rights are reserved.
-              </small>
-            </footer>
+            
           </div>
         </div>
       </div>

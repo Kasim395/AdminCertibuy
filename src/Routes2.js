@@ -11,7 +11,7 @@ import { MakeReport } from "./Screens/Components/MakeReport";
 
 const RoutesInspector = () => {
   const [isAuthenticateds, setIsAuthenticateds] = React.useState(false);
-  const allowedUserIdS = 'OY2Ns86kE4PlCS7fSwBBdZQCQkJ2';
+  const allowedUserIdS = 'SmqABmJhnVWPAX0DCYo4TIrIrSG3';
   const history = useHistory();
 
   React.useEffect(() => {

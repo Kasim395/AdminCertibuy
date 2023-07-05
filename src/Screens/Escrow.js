@@ -427,17 +427,45 @@ export const Escrow = () => {
                                   console.error(error);
                                 }
 
-
-                           //     handleDelete(item.adID)
-
-                            //    handleDelete2(item.adID)
-
-                          //      setTimeout(() => {
-                        //          db.collection("EscrowPayment")
-                         //           .doc(item.id)
-                         //           .delete();
-                       //         }, 1800);
-
+                                
+                                setTimeout(() => {
+                                  db.collection("EscrowPayment")
+                                    .doc(item.id)
+                                    .delete()
+                                    .then(() => {
+                                      console.log("Document deleted successfully");
+                                    })
+                                    .catch((error) => {
+                                      console.log("Error deleting document: ", error);
+                                    });
+                                }, 1800);
+           
+                                
+                                
+                                setTimeout(async () => {
+                                  const addCollection = await db.collection('add');
+                                  const querySnapshot = await addCollection.where('adID', '==', item.adID).get();
+                    
+                                  if (querySnapshot.empty) {
+                                    console.log('No matching documents found');
+                                    return;
+                                  }
+                    
+                                  querySnapshot.forEach((doc) => {
+                                    doc.ref
+                                      .delete()
+                                      .then(() => {
+                                        console.log('Document deleted successfully');
+                                      })
+                                      .catch((error) => {
+                                        console.log('Error deleting document: ', error);
+                                      });
+                                  });
+                    
+                                  
+                                }, 1000);
+        
+                                alert("Payment Made And Logged Successfully!");
 
                               }}>
                             Payment Made
@@ -460,9 +488,7 @@ export const Escrow = () => {
           </div>
 
 
-            <footer className="mx-auto my-3 text-center">
-                <small>&copy; Certified Buy Center, 2023. All rights  are reserved.</small>
-            </footer>
+            
           </div>
         </div>
       </div>
