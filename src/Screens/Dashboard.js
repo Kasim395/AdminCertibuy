@@ -214,7 +214,7 @@ export const Dashboard = () => {
     if (name.length > 1 && notice.length > 1) {
       postnotice();
       updateDateTime();
-      window.location.reload();
+     // window.location.reload();
     } else {
       alert("Name or Notice Field is empty!");
     }
